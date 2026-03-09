@@ -1,5 +1,17 @@
 # Local Service Marketplace System (LSMS)
 
+## Table of Contents
+- [Project Introduction](#project-introduction)
+- [Features](#features)
+- [System Architecture](#system-architecture)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Installation and Setup](#installation-and-setup)
+- [Usage](#usage)
+- [Contribution Guidelines](#contribution-guidelines)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+
 ## Project Introduction
 The Local Service Marketplace System (LSMS) is a comprehensive platform designed to bridge the gap between house owners and local service professionals. Finding reliable local services such as plumbers, electricians, cleaners, and AC repair technicians can often be a tedious and uncertain process for homeowners. Conversely, skilled service professionals need a reliable way to find consistent work and connect with clients in their area. 
 
