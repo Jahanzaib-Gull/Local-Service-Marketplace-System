@@ -4,9 +4,17 @@ import Card from '../components/Card';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
+import { useNavigate, Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
 const ServiceListings = () => {
+  const { user } = useAuth();
   const [filter, setFilter] = useState('All Categories');
   const [search, setSearch] = useState('');
+
+  if (!user || user.role !== 'ServiceProvider') {
+    return <Navigate to="/dashboard" replace />;
+  }
   
   const jobs = [
     { id: 1, title: 'Emergency Pipe Leak Repair', category: 'Plumbing', location: 'Downtown', time: 'Urgent (Today)', budget: '$150-$250', desc: 'Water leaking heavily from kitchen sink drain pipe. Need immediate assistance.' },

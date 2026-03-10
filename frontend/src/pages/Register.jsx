@@ -14,18 +14,23 @@ const Register = () => {
   const [location, setLocation] = useState('');
   const [role, setRole] = useState('owner');
   const [isLoading, setIsLoading] = useState(false);
+  const [errorPrompt, setErrorPrompt] = useState(null);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { register } = useAuth();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate API Call
-    setTimeout(() => {
-      login({ name: name || 'User', role, email, phone, location });
-      setIsLoading(false);
+    setErrorPrompt(null);
+    
+    try {
+      await register({ name, email, password, role, phone, location });
       navigate('/dashboard');
-    }, 1200);
+    } catch (error) {
+      setErrorPrompt(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -118,6 +123,8 @@ const Register = () => {
               </div>
             </div>
           </div>
+
+          {errorPrompt && <div style={{ color: 'var(--error)', fontSize: '0.85rem', textAlign: 'center' }}>{errorPrompt}</div>}
           
           <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1rem', padding: '0.85rem' }} disabled={isLoading}>
             {isLoading ? 'Creating Account...' : 'Register Now'}

@@ -10,21 +10,23 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [errorPrompt, setErrorPrompt] = useState(null);
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setErrorPrompt(null);
     
-    // Simulate API call that determines role based on response
-    const detectedRole = email.includes('provider') ? 'provider' : 'owner';
-    
-    setTimeout(() => {
-      login({ name: 'User', role: detectedRole, email });
-      setIsLoading(false);
+    try {
+      await login(email, password);
       navigate('/dashboard');
-    }, 1200);
+    } catch (error) {
+      setErrorPrompt(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -64,9 +66,7 @@ const Login = () => {
             />
           </div>
 
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textAlign: 'center', marginTop: '-0.5rem' }}>
-            Tip: Include "provider" in email to log in as Service Provider.
-          </div>
+          {errorPrompt && <div style={{ color: 'var(--error)', fontSize: '0.85rem', textAlign: 'center', marginTop: '-0.5rem' }}>{errorPrompt}</div>}
           
           <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1.5rem', padding: '0.85rem' }} disabled={isLoading}>
             {isLoading ? 'Authenticating...' : <><LogIn size={20} /> Sign In</>}
