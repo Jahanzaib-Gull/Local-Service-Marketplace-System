@@ -9,16 +9,22 @@ import { useAuth } from '../context/AuthContext';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('owner'); // mock role for test
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login({ name: 'User', role, email });
+    setIsLoading(true);
+    
+    // Simulate API call that determines role based on response
+    const detectedRole = email.includes('provider') ? 'provider' : 'owner';
+    
     setTimeout(() => {
+      login({ name: 'User', role: detectedRole, email });
+      setIsLoading(false);
       navigate('/dashboard');
-    }, 500);
+    }, 1200);
   };
 
   return (
@@ -58,20 +64,12 @@ const Login = () => {
             />
           </div>
 
-          <Input 
-            id="role"
-            label="Simulate Logging In As..."
-            type="select"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            required
-          >
-            <option value="owner">House Owner</option>
-            <option value="provider">Service Provider</option>
-          </Input>
+          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textAlign: 'center', marginTop: '-0.5rem' }}>
+            Tip: Include "provider" in email to log in as Service Provider.
+          </div>
           
-          <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1.5rem', padding: '0.85rem' }}>
-            <LogIn size={20} /> Sign In
+          <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1.5rem', padding: '0.85rem' }} disabled={isLoading}>
+            {isLoading ? 'Authenticating...' : <><LogIn size={20} /> Sign In</>}
           </Button>
         </form>
         
