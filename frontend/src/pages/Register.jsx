@@ -10,16 +10,22 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [location, setLocation] = useState('');
   const [role, setRole] = useState('owner');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleRegister = (e) => {
     e.preventDefault();
-    login({ name: name || 'User', role, email });
+    setIsLoading(true);
+    // Simulate API Call
     setTimeout(() => {
+      login({ name: name || 'User', role, email, phone, location });
+      setIsLoading(false);
       navigate('/dashboard');
-    }, 500);
+    }, 1200);
   };
 
   return (
@@ -67,6 +73,29 @@ const Register = () => {
             style={{ marginBottom: '0.5rem' }}
           />
 
+          <div className="grid grid-cols-2" style={{ gap: '1.5rem', marginBottom: '0.5rem' }}>
+            <Input 
+              id="phone"
+              label="Phone Number"
+              type="text"
+              placeholder="+1 (555) 000-0000"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              style={{ marginBottom: 0 }}
+            />
+            <Input 
+              id="location"
+              label="Location"
+              type="text"
+              placeholder="City, State"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+              style={{ marginBottom: 0 }}
+            />
+          </div>
+
           <div className="form-group" style={{ marginBottom: '0.5rem' }}>
             <label className="form-label">I am a...</label>
             <div className="grid grid-cols-2" style={{ gap: '1rem', gridTemplateColumns: '1fr 1fr' }}>
@@ -90,8 +119,8 @@ const Register = () => {
             </div>
           </div>
           
-          <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1rem', padding: '0.85rem' }}>
-            Register Now
+          <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1rem', padding: '0.85rem' }} disabled={isLoading}>
+            {isLoading ? 'Creating Account...' : 'Register Now'}
           </Button>
         </form>
         
