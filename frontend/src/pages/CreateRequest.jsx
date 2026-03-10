@@ -11,7 +11,7 @@ const CreateRequest = () => {
   const { user } = useAuth();
   const [submitted, setSubmitted] = useState(false);
 
-  if (!user || user.role !== 'owner') {
+  if (!user || user.role !== 'HomeOwner') {
     return <Navigate to="/dashboard" replace />;
   }
 
