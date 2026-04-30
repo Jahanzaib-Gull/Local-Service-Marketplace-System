@@ -10,17 +10,54 @@ const CreateRequest = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    category: '',
+    description: '',
+    location: '',
+    budget: '',
+    schedule: ''
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!user || user.role !== 'owner') {
     return <Navigate to="/dashboard" replace />;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      navigate('/dashboard');
-    }, 2000);
+    setIsLoading(true);
+    
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('http://localhost:5000/api/requests', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (res.ok) {
+        setSubmitted(true);
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 2000);
+      } else {
+        const errData = await res.json();
+        alert(errData.message || 'Failed to submit request');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('An error occurred.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   if (submitted) {
@@ -51,6 +88,8 @@ const CreateRequest = () => {
               id="title" 
               label="Job Title" 
               placeholder="e.g. Broken Pipe Repair" 
+              value={formData.title}
+              onChange={handleChange}
               required 
             />
             
@@ -58,9 +97,11 @@ const CreateRequest = () => {
               id="category"
               label="Category"
               type="select"
+              value={formData.category}
+              onChange={handleChange}
               required
             >
-              <option value="" disabled selected>Select a category</option>
+              <option value="" disabled>Select a category</option>
               <option value="plumbing">Plumbing</option>
               <option value="electrical">Electrical</option>
               <option value="cleaning">Cleaning</option>
@@ -78,6 +119,8 @@ const CreateRequest = () => {
               icon={AlignLeft}
               rows="5"
               placeholder="Please describe the issue in detail..."
+              value={formData.description}
+              onChange={handleChange}
               required
             />
           </div>
@@ -88,13 +131,18 @@ const CreateRequest = () => {
               label="Location"
               icon={MapPin}
               placeholder="Enter your address"
+              value={formData.location}
+              onChange={handleChange}
               required
             />
             
             <Input 
-              id="schedule"
-              label="Preferred Time"
-              type="datetime-local"
+              id="budget"
+              label="Budget ($)"
+              type="number"
+              placeholder="150"
+              value={formData.budget}
+              onChange={handleChange}
               required
             />
           </div>

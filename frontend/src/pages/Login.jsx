@@ -13,18 +13,37 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleLogin = (e) => {
+  const [error, setError] = useState('');
+
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     
-    // Simulate API call that determines role based on response
-    const detectedRole = email.includes('provider') ? 'provider' : 'owner';
-    
-    setTimeout(() => {
-      login({ name: 'User', role: detectedRole, email });
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Assume `data` structure is what backend sends for user: { _id, name, email, role, token }
+        login(data);
+        // Also save token/user if needed but context will hold it for now
+        navigate('/dashboard');
+      } else {
+        setError(data.message || 'Login failed. Please check your credentials.');
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again later.');
+    } finally {
       setIsLoading(false);
-      navigate('/dashboard');
-    }, 1200);
+    }
   };
 
   return (
@@ -35,6 +54,12 @@ const Login = () => {
           <p style={{ color: 'var(--text-secondary)' }}>Sign in to your account</p>
         </div>
         
+        {error && (
+          <div style={{ backgroundColor: 'var(--accent-red, #ffebee)', color: 'var(--accent-red-hover, #c62828)', padding: '0.75rem', borderRadius: '0.5rem', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleLogin} className="flex-col" style={{ gap: '1.5rem' }}>
           <Input 
             id="email"
