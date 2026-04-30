@@ -10,9 +10,11 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [errorPrompt, setErrorPrompt] = useState(null);
   const navigate = useNavigate();
   const { login } = useAuth();
 
+<<<<<<< HEAD
   const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
@@ -41,6 +43,18 @@ const Login = () => {
       }
     } catch (err) {
       setError('An error occurred. Please try again later.');
+=======
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorPrompt(null);
+    
+    try {
+      await login(email, password);
+      navigate('/dashboard');
+    } catch (error) {
+      setErrorPrompt(error.message);
+>>>>>>> a147018f94489134dead8237dba47586b1d240eb
     } finally {
       setIsLoading(false);
     }
@@ -89,9 +103,7 @@ const Login = () => {
             />
           </div>
 
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textAlign: 'center', marginTop: '-0.5rem' }}>
-            Tip: Include "provider" in email to log in as Service Provider.
-          </div>
+          {errorPrompt && <div style={{ color: 'var(--error)', fontSize: '0.85rem', textAlign: 'center', marginTop: '-0.5rem' }}>{errorPrompt}</div>}
           
           <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1.5rem', padding: '0.85rem' }} disabled={isLoading}>
             {isLoading ? 'Authenticating...' : <><LogIn size={20} /> Sign In</>}

@@ -20,7 +20,7 @@ const CreateRequest = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  if (!user || user.role !== 'owner') {
+  if (!user || user.role !== 'HomeOwner') {
     return <Navigate to="/dashboard" replace />;
   }
 

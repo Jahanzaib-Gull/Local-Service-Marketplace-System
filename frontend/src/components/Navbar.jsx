@@ -39,10 +39,10 @@ const Navbar = () => {
           
           {user ? (
             <>
-              {user.role === 'provider' && (
+              {user.role === 'ServiceProvider' && (
                 <Link to="/services" className={`nav-link ${isActive('/services')}`} onClick={() => setMenuOpen(false)}>Find Jobs</Link>
               )}
-              {user.role === 'owner' && (
+              {user.role === 'HomeOwner' && (
                 <Link to="/create-request" className={`nav-link ${isActive('/create-request')}`} onClick={() => setMenuOpen(false)}>Post Job</Link>
               )}
               <Link to="/dashboard" className={`nav-link ${isActive('/dashboard')}`} onClick={() => setMenuOpen(false)}>Dashboard</Link>

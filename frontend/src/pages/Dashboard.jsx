@@ -11,7 +11,7 @@ const Dashboard = () => {
     return <Navigate to="/login" replace />;
   }
 
-  return user.role === 'provider' ? <ProviderDashboard /> : <OwnerDashboard />;
+  return user.role === 'ServiceProvider' ? <ProviderDashboard /> : <OwnerDashboard />;
 };
 
 export default Dashboard;

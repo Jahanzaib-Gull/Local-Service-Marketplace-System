@@ -14,9 +14,11 @@ const Register = () => {
   const [location, setLocation] = useState('');
   const [role, setRole] = useState('owner');
   const [isLoading, setIsLoading] = useState(false);
+  const [errorPrompt, setErrorPrompt] = useState(null);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { register } = useAuth();
 
+<<<<<<< HEAD
   const [error, setError] = useState('');
 
   const handleRegister = async (e) => {
@@ -43,6 +45,18 @@ const Register = () => {
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
+=======
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorPrompt(null);
+    
+    try {
+      await register({ name, email, password, role, phone, location });
+      navigate('/dashboard');
+    } catch (error) {
+      setErrorPrompt(error.message);
+>>>>>>> a147018f94489134dead8237dba47586b1d240eb
     } finally {
       setIsLoading(false);
     }
@@ -144,6 +158,8 @@ const Register = () => {
               </div>
             </div>
           </div>
+
+          {errorPrompt && <div style={{ color: 'var(--error)', fontSize: '0.85rem', textAlign: 'center' }}>{errorPrompt}</div>}
           
           <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1rem', padding: '0.85rem' }} disabled={isLoading}>
             {isLoading ? 'Creating Account...' : 'Register Now'}
