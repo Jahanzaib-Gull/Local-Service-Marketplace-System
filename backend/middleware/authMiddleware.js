@@ -28,7 +28,7 @@ const protect = asyncHandler(async (req, res, next) => {
 });
 
 const homeOwner = (req, res, next) => {
-  if (req.user && req.user.role === 'HomeOwner') {
+  if (req.user && req.user.role === 'owner') {
     next();
   } else {
     res.status(403);
@@ -37,7 +37,7 @@ const homeOwner = (req, res, next) => {
 };
 
 const serviceProvider = (req, res, next) => {
-  if (req.user && req.user.role === 'ServiceProvider') {
+  if (req.user && req.user.role === 'provider') {
     next();
   } else {
     res.status(403);

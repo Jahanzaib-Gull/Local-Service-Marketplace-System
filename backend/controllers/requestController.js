@@ -25,9 +25,9 @@ const createRequest = asyncHandler(async (req, res) => {
 const getRequests = asyncHandler(async (req, res) => {
   // If homeowner, get only their requests. If provider, get all pending requests.
   let filter = {};
-  if (req.user.role === 'HomeOwner') {
+  if (req.user.role === 'owner') {
     filter = { createdBy: req.user._id };
-  } else if (req.user.role === 'ServiceProvider') {
+  } else if (req.user.role === 'provider') {
     filter = { status: 'pending' };
   }
 
