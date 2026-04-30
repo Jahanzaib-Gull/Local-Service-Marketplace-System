@@ -1,27 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Clock, DollarSign, Briefcase } from 'lucide-react';
 import Card from '../components/Card';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const ServiceListings = () => {
   const [filter, setFilter] = useState('All Categories');
   const [search, setSearch] = useState('');
-  
-  const jobs = [
-    { id: 1, title: 'Emergency Pipe Leak Repair', category: 'Plumbing', location: 'Downtown', time: 'Urgent (Today)', budget: '$150-$250', desc: 'Water leaking heavily from kitchen sink drain pipe. Need immediate assistance.' },
-    { id: 2, title: 'Full House Deep Cleaning', category: 'Cleaning', location: 'Westside', time: 'Tomorrow Morning', budget: '$100-$150', desc: 'Moving out cleaning required for a 3-bedroom apartment.' },
-    { id: 3, title: 'Main Breaker Box Inspection', category: 'Electrical', location: 'North Hills', time: 'Within 3 Days', budget: '$80-$120', desc: 'Experiencing frequent power trips in the living room and kitchen areas.' },
-    { id: 4, title: 'AC Not Cooling Correctly', category: 'HVAC', location: 'South End', time: 'Flexible', budget: '$100-$200', desc: 'Central AC system is running but blowing warm air.' },
-    { id: 5, title: 'Washing Machine Repair', category: 'Appliance', location: 'City Center', time: 'Tomorrow Afternoon', budget: '$70-$100', desc: 'Washing machine stops halfway through the spin cycle and flashes error 4C.' },
-    { id: 6, title: 'Install New Chandelier', category: 'Electrical', location: 'East Side', time: 'Weekend', budget: '$80-$150', desc: 'Need professional installation for a heavy crystal chandelier in the dining room.' }
-  ];
+  const [jobs, setJobs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const categories = ['All Categories', 'Plumbing', 'Electrical', 'Cleaning', 'HVAC', 'Appliance'];
+  const fetchJobs = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('http://localhost:5000/api/requests', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setJobs(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch jobs', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const handleAccept = async (id) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('http://localhost:5000/api/bookings/accept', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ requestId: id })
+      });
+      
+      if (res.ok) {
+        // Remove accepted job from listing or navigate to dashboard
+        fetchJobs();
+        navigate('/dashboard');
+      } else {
+        const data = await res.json();
+        alert(data.message || 'Failed to accept the request.');
+      }
+    } catch (err) {
+      console.error('Failed to accept request', err);
+    }
+  };
+
+  const categories = ['All Categories', 'Plumbing', 'Electrical', 'Cleaning', 'HVAC', 'Appliance', 'Painting'];
 
   const filteredJobs = jobs.filter(job => 
     (filter === 'All Categories' || job.category === filter) &&
-    (search === '' || job.title.toLowerCase().includes(search.toLowerCase()))
+    (search === '' || job.title?.toLowerCase().includes(search.toLowerCase()))
   );
 
   return (
@@ -36,6 +85,7 @@ const ServiceListings = () => {
       <div className="flex-between" style={{ marginBottom: '2.5rem', gap: '1.5rem', flexWrap: 'wrap' }}>
         <div style={{ flex: '1', minWidth: '320px' }}>
           <Input 
+            id="search"
             type="text"
             icon={Search}
             placeholder="Search for jobs..."
@@ -48,6 +98,7 @@ const ServiceListings = () => {
         <div className="flex-center" style={{ gap: '0.75rem', minWidth: '220px' }}>
           <Filter size={20} color="var(--text-secondary)" />
           <Input 
+            id="category-filter"
             type="select"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
@@ -60,48 +111,54 @@ const ServiceListings = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2" style={{ gap: '2rem' }}>
-        {filteredJobs.map((job, index) => (
-          <Card key={job.id} className={`delay-${(index % 3) * 100} animate-slide-up`} style={{ display: 'flex', flexDirection: 'column' }}>
-            <div className="flex-between" style={{ marginBottom: '1.25rem' }}>
-              <span className="badge badge-active">{job.category}</span>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '500' }}>Posted 2h ago</span>
-            </div>
-            
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>{job.title}</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.5rem', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-              {job.desc}
-            </p>
-            
-            <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '2rem' }}>
-              <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
-                <MapPin size={18} color="var(--accent-primary)" />
-                {job.location}
+      {isLoading ? (
+        <div className="flex-center" style={{ minHeight: '30vh' }}>Loading available jobs...</div>
+      ) : (
+        <div className="grid grid-cols-2" style={{ gap: '2rem' }}>
+          {filteredJobs.map((job, index) => (
+            <Card key={job._id} className={`delay-${(index % 3) * 100} animate-slide-up`} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className="flex-between" style={{ marginBottom: '1.25rem' }}>
+                <span className="badge badge-active">{job.category}</span>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '500' }}>
+                  {new Date(job.createdAt).toLocaleDateString()}
+                </span>
               </div>
-              <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
-                <Clock size={18} color="var(--accent-secondary)" />
-                {job.time}
+              
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>{job.title}</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.5rem', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                {job.description}
+              </p>
+              
+              <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '2rem' }}>
+                <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
+                  <MapPin size={18} color="var(--accent-primary)" />
+                  {job.location}
+                </div>
+                <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
+                  <Clock size={18} color="var(--accent-secondary)" />
+                  Flexible Time
+                </div>
+                <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
+                  <DollarSign size={18} color="var(--success)" />
+                  ${job.budget}
+                </div>
+                <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500', cursor: 'pointer' }} onClick={() => handleAccept(job._id)}>
+                  <Briefcase size={18} color="var(--warning)" />
+                  Accept Now
+                </div>
               </div>
-              <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
-                <DollarSign size={18} color="var(--success)" />
-                {job.budget}
+              
+              <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: 'auto' }}>
+                <Button variant="primary" style={{ width: '100%' }} onClick={() => handleAccept(job._id)}>Accept Job</Button>
               </div>
-              <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
-                <Briefcase size={18} color="var(--warning)" />
-                Accept Now
-              </div>
-            </div>
-            
-            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: 'auto' }}>
-              <Button variant="primary" style={{ width: '100%' }}>View Job Details</Button>
-            </div>
-          </Card>
-        ))}
-      </div>
+            </Card>
+          ))}
+        </div>
+      )}
       
-      {filteredJobs.length === 0 && (
+      {!isLoading && filteredJobs.length === 0 && (
         <Card style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-secondary)' }}>
-          <p>No jobs found for the selected category. Try a different filter.</p>
+          <p>No jobs found for the selected category. Try a different filter or check back later.</p>
         </Card>
       )}
     </div>
