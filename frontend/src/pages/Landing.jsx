@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Home as HomeIcon, Wrench } from 'lucide-react';
 
 const Landing = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="home-page">
       <section className="container">
@@ -13,8 +15,8 @@ const Landing = () => {
           </p>
           
           <div className="grid grid-cols-2" style={{ gap: '2rem', width: '100%', marginTop: '2rem' }}>
-            <div className="card glass flex-col flex-center text-center" style={{ padding: '3rem 2rem', gap: '1.5rem', cursor: 'pointer', transition: 'transform 0.3s' }} onClick={() => window.location.href='/owner'}>
-              <div style={{ background: 'rgba(99, 102, 241, 0.1)', padding: '1.5rem', borderRadius: '50%', color: 'var(--accent-primary)' }}>
+            <div className="card glass flex-col flex-center text-center" style={{ padding: '3rem 2rem', gap: '1.5rem', cursor: 'pointer', transition: 'transform 0.3s, box-shadow 0.3s' }} onClick={() => navigate('/owner')}>
+              <div style={{ background: 'rgba(99, 102, 241, 0.1)', padding: '1.5rem', borderRadius: '50%', color: 'var(--accent-primary)', transition: 'transform 0.3s' }} className="hover-scale">
                 <HomeIcon size={48} />
               </div>
               <h2>I am a House Owner</h2>
@@ -22,8 +24,8 @@ const Landing = () => {
               <Link to="/owner" className="btn btn-primary" style={{ width: '100%' }}>Explore Services</Link>
             </div>
 
-            <div className="card glass flex-col flex-center text-center" style={{ padding: '3rem 2rem', gap: '1.5rem', cursor: 'pointer', transition: 'transform 0.3s' }} onClick={() => window.location.href='/provider'}>
-              <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '1.5rem', borderRadius: '50%', color: 'var(--success)' }}>
+            <div className="card glass flex-col flex-center text-center" style={{ padding: '3rem 2rem', gap: '1.5rem', cursor: 'pointer', transition: 'transform 0.3s, box-shadow 0.3s' }} onClick={() => navigate('/provider')}>
+              <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '1.5rem', borderRadius: '50%', color: 'var(--success)', transition: 'transform 0.3s' }} className="hover-scale">
                 <Wrench size={48} />
               </div>
               <h2>I am a Service Provider</h2>
