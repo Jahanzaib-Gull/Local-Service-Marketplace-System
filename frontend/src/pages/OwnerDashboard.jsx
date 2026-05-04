@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Wrench, Bell, CheckCircle, MoreHorizontal } from 'lucide-react';
+import { Wrench, Bell, CheckCircle, MoreHorizontal, PlusCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Card from '../components/Card';
-import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
 
 const OwnerDashboard = () => {
@@ -36,100 +34,102 @@ const OwnerDashboard = () => {
   }, []);
 
   if (isLoading) {
-    return <div className="container flex-center" style={{ minHeight: '50vh' }}>Loading dashboard...</div>;
+    return (
+      <div className="min-h-[50vh] flex items-center justify-center text-slate-500">
+        <svg className="animate-spin h-6 w-6 mr-3 text-indigo-600" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+        Loading dashboard...
+      </div>
+    );
   }
 
   const { stats = { totalRequests: 0, activeJobs: 0, completedJobs: 0 }, recentRequests = [] } = metrics || {};
 
+  const statCards = [
+    { label: 'Total Requests', value: stats.totalRequests, icon: Wrench, color: 'indigo', borderColor: 'border-l-indigo-500', iconBg: 'bg-indigo-100', iconText: 'text-indigo-600' },
+    { label: 'Active Jobs', value: stats.activeJobs, icon: Bell, color: 'amber', borderColor: 'border-l-amber-400', iconBg: 'bg-amber-100', iconText: 'text-amber-600' },
+    { label: 'Completed', value: stats.completedJobs, icon: CheckCircle, color: 'emerald', borderColor: 'border-l-emerald-500', iconBg: 'bg-emerald-100', iconText: 'text-emerald-600' },
+  ];
+
   return (
-    <div className="container animate-fade-in" style={{ padding: '0 2.5rem 2rem' }}>
-      <div className="flex-between" style={{ marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+    <div className="max-w-6xl mx-auto px-6 py-8 animate-fade-in-up">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h1 style={{ marginBottom: '0.2rem', color: 'var(--text-primary)' }}>Owner Dashboard</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>Track and manage your service requests effectively.</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">Owner Dashboard</h1>
+          <p className="text-slate-500">Track and manage your service requests effectively.</p>
         </div>
-        <Link to="/create-request">
-          <Button variant="primary" style={{ padding: '0.75rem 1.5rem' }}>
-            + New Request
-          </Button>
+        <Link to="/create-request" className="inline-flex items-center gap-2 px-5 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-md shadow-indigo-500/30 hover:bg-indigo-700 transition-all duration-200 self-start">
+          <PlusCircle size={18} /> New Request
         </Link>
       </div>
 
-      <div className="grid grid-cols-3" style={{ marginBottom: '2.5rem' }}>
-        <Card className="flex-between" style={{ borderLeft: '4px solid var(--accent-primary)' }}>
-          <div>
-            <p className="form-label" style={{ marginBottom: '0.2rem' }}>Total Requests</p>
-            <h2 style={{ margin: 0, fontSize: '2rem' }}>{stats.totalRequests}</h2>
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+        {statCards.map((card, i) => (
+          <div key={i} className={`bg-white border border-slate-200 rounded-2xl p-6 flex items-center justify-between border-l-4 ${card.borderColor} shadow-sm`}>
+            <div>
+              <p className="text-sm font-semibold text-slate-500 mb-1">{card.label}</p>
+              <h2 className="text-3xl font-bold text-slate-900">{card.value}</h2>
+            </div>
+            <div className={`p-3 rounded-full ${card.iconBg}`}>
+              <card.icon size={22} className={card.iconText} />
+            </div>
           </div>
-          <div style={{ background: 'var(--bg-primary)', padding: '1rem', borderRadius: '50%', color: 'var(--accent-primary)' }}>
-            <Wrench size={24} />
-          </div>
-        </Card>
-
-        <Card className="flex-between" style={{ borderLeft: '4px solid #f59e0b' }}>
-          <div>
-            <p className="form-label" style={{ marginBottom: '0.2rem' }}>Active Jobs</p>
-            <h2 style={{ margin: 0, fontSize: '2rem' }}>{stats.activeJobs}</h2>
-          </div>
-          <div style={{ background: '#fef3c7', padding: '1rem', borderRadius: '50%', color: '#d97706' }}>
-            <Bell size={24} />
-          </div>
-        </Card>
-
-        <Card className="flex-between" style={{ borderLeft: '4px solid var(--success)' }}>
-          <div>
-            <p className="form-label" style={{ marginBottom: '0.2rem' }}>Completed</p>
-            <h2 style={{ margin: 0, fontSize: '2rem' }}>{stats.completedJobs}</h2>
-          </div>
-          <div style={{ background: '#d1fae5', padding: '1rem', borderRadius: '50%', color: 'var(--success)' }}>
-            <CheckCircle size={24} />
-          </div>
-        </Card>
+        ))}
       </div>
 
-      <Card style={{ padding: '0' }}>
-        <div className="flex-between" style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--border-color)', background: 'var(--bg-primary)', borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0' }}>
-          <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Recent Service Requests</h3>
-          <Button variant="outline" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>View All</Button>
+      {/* Recent Requests Table */}
+      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 bg-slate-50 border-b border-slate-200">
+          <h3 className="text-base font-bold text-slate-900">Recent Service Requests</h3>
+          <button className="px-4 py-2 text-sm font-medium text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors">
+            View All
+          </button>
         </div>
         
-        <div style={{ overflowX: 'auto' }}>
-          <table className="data-table">
+        <div className="overflow-x-auto">
+          <table className="w-full">
             <thead>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Action</th>
+              <tr className="border-b border-slate-100">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">ID</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Title</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Action</th>
               </tr>
             </thead>
             <tbody>
               {recentRequests && recentRequests.length > 0 ? recentRequests.map(req => (
-                <tr key={req._id}>
-                  <td style={{ fontWeight: '600', color: 'var(--text-secondary)' }}>{req._id.substring(0, 8)}</td>
-                  <td style={{ fontWeight: '500' }}>{req.title}</td>
-                  <td style={{ color: 'var(--text-secondary)' }}>{req.category}</td>
-                  <td>
-                    <span className={`badge badge-${req.status.toLowerCase()}`}>{req.status}</span>
+                <tr key={req._id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                  <td className="px-6 py-4 text-sm font-semibold text-slate-400">{req._id.substring(0, 8)}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-slate-900">{req.title}</td>
+                  <td className="px-6 py-4 text-sm text-slate-500 hidden md:table-cell">{req.category}</td>
+                  <td className="px-6 py-4">
+                    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                      req.status?.toLowerCase() === 'pending' ? 'bg-amber-100 text-amber-700' :
+                      req.status?.toLowerCase() === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                      'bg-indigo-100 text-indigo-700'
+                    }`}>
+                      {req.status}
+                    </span>
                   </td>
-                  <td style={{ color: 'var(--text-secondary)' }}>{new Date(req.createdAt).toLocaleDateString()}</td>
-                  <td>
-                    <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}>
-                      <MoreHorizontal size={20} />
+                  <td className="px-6 py-4 text-sm text-slate-500 hidden lg:table-cell">{new Date(req.createdAt).toLocaleDateString()}</td>
+                  <td className="px-6 py-4">
+                    <button className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+                      <MoreHorizontal size={18} />
                     </button>
                   </td>
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>No recent requests found.</td>
+                  <td colSpan="6" className="px-6 py-12 text-center text-slate-400">No recent requests found.</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

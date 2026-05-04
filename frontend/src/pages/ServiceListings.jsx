@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Clock, DollarSign, Briefcase } from 'lucide-react';
-import Card from '../components/Card';
-import Input from '../components/Input';
-import Button from '../components/Button';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -58,7 +55,6 @@ const ServiceListings = () => {
       });
       
       if (res.ok) {
-        // Remove accepted job from listing or navigate to dashboard
         fetchJobs();
         navigate('/dashboard');
       } else {
@@ -78,92 +74,101 @@ const ServiceListings = () => {
   );
 
   return (
-    <div className="container animate-fade-in" style={{ padding: '0 2.5rem 2rem', maxWidth: '1200px' }}>
-      <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
-        <h1 style={{ color: 'var(--text-primary)' }}>Available Jobs Near You</h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+    <div className="max-w-6xl mx-auto px-6 py-8 animate-fade-in-up">
+      {/* Header */}
+      <div className="text-center mb-10">
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Available Jobs Near You</h1>
+        <p className="text-slate-600 text-lg">
           Browse open service requests and connect with customers needing your expertise.
         </p>
       </div>
 
-      <div className="flex-between" style={{ marginBottom: '2.5rem', gap: '1.5rem', flexWrap: 'wrap' }}>
-        <div style={{ flex: '1', minWidth: '320px' }}>
-          <Input 
-            id="search"
+      {/* Filters */}
+      <div className="flex flex-col md:flex-row gap-4 mb-10">
+        <div className="flex-1 relative">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input 
             type="text"
-            icon={Search}
             placeholder="Search for jobs..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            style={{ marginBottom: 0 }}
+            className="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-medium placeholder-slate-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
           />
         </div>
-        
-        <div className="flex-center" style={{ gap: '0.75rem', minWidth: '220px' }}>
-          <Filter size={20} color="var(--text-secondary)" />
-          <Input 
-            id="category-filter"
-            type="select"
+        <div className="flex items-center gap-2 min-w-[200px]">
+          <Filter size={18} className="text-slate-400 shrink-0" />
+          <select 
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            style={{ marginBottom: 0, width: '100%' }}
+            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
           >
             {categories.map(cat => (
               <option key={cat} value={cat}>{cat}</option>
             ))}
-          </Input>
+          </select>
         </div>
       </div>
 
+      {/* Job Cards */}
       {isLoading ? (
-        <div className="flex-center" style={{ minHeight: '30vh' }}>Loading available jobs...</div>
+        <div className="flex items-center justify-center min-h-[30vh] text-slate-500">
+          <svg className="animate-spin h-6 w-6 mr-3 text-indigo-600" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+          Loading available jobs...
+        </div>
       ) : (
-        <div className="grid grid-cols-2" style={{ gap: '2rem' }}>
-          {filteredJobs.map((job, index) => (
-            <Card key={job._id} className={`delay-${(index % 3) * 100} animate-slide-up`} style={{ display: 'flex', flexDirection: 'column' }}>
-              <div className="flex-between" style={{ marginBottom: '1.25rem' }}>
-                <span className="badge badge-active">{job.category}</span>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '500' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredJobs.map((job) => (
+            <div key={job._id} className="group bg-white border border-slate-200 rounded-2xl p-6 flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200">
+              <div className="flex items-center justify-between mb-4">
+                <span className="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-full">{job.category}</span>
+                <span className="text-xs text-slate-500 font-medium">
                   {new Date(job.createdAt).toLocaleDateString()}
                 </span>
               </div>
               
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>{job.title}</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.5rem', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">{job.title}</h3>
+              <p className="text-slate-600 text-sm mb-5 line-clamp-2 flex-grow">
                 {job.description}
               </p>
               
-              <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '2rem' }}>
-                <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
-                  <MapPin size={18} color="var(--accent-primary)" />
-                  {job.location}
+              <div className="grid grid-cols-2 gap-3 mb-5">
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <MapPin size={16} className="text-indigo-500 shrink-0" />
+                  <span className="truncate">{job.location}</span>
                 </div>
-                <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
-                  <Clock size={18} color="var(--accent-secondary)" />
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <Clock size={16} className="text-sky-500 shrink-0" />
                   Flexible Time
                 </div>
-                <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500' }}>
-                  <DollarSign size={18} color="var(--success)" />
+                <div className="flex items-center gap-2 text-sm font-semibold text-emerald-600">
+                  <DollarSign size={16} className="shrink-0" />
                   ${job.budget}
                 </div>
-                <div className="flex-center" style={{ justifyContent: 'flex-start', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '500', cursor: 'pointer' }} onClick={() => handleAccept(job._id)}>
-                  <Briefcase size={18} color="var(--warning)" />
-                  Accept Now
+                <div className="flex items-center gap-2 text-sm text-amber-600">
+                  <Briefcase size={16} className="shrink-0" />
+                  Open
                 </div>
               </div>
               
-              <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: 'auto' }}>
-                <Button variant="primary" style={{ width: '100%' }} onClick={() => handleAccept(job._id)}>Accept Job</Button>
+              <div className="border-t border-slate-100 pt-4 mt-auto">
+                <button 
+                  onClick={() => handleAccept(job._id)}
+                  className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-sm hover:bg-indigo-700 hover:shadow-md transition-all duration-200"
+                >
+                  Accept Job
+                </button>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       )}
       
       {!isLoading && filteredJobs.length === 0 && (
-        <Card style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-secondary)' }}>
-          <p>No jobs found for the selected category. Try a different filter or check back later.</p>
-        </Card>
+        <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center text-slate-500">
+          <Briefcase size={40} className="mx-auto mb-4 text-slate-300" />
+          <p className="text-lg font-medium">No jobs found for the selected category.</p>
+          <p className="text-sm mt-1">Try a different filter or check back later.</p>
+        </div>
       )}
     </div>
   );

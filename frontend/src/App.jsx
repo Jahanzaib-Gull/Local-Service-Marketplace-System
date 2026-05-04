@@ -16,9 +16,9 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="app">
+        <div className="min-h-screen bg-slate-50 font-['Inter',sans-serif] antialiased">
           <Navbar />
-          <main className="main-content">
+          <main>
             <Routes>
               <Route path="/" element={<Landing />} />
               <Route path="/owner" element={<OwnerHome />} />
