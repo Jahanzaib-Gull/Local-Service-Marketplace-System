@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, User, Briefcase, Home as HomeIcon, Phone, MapPin, UserPlus } from 'lucide-react';
+import { Mail, Lock, User, Briefcase, Home as HomeIcon, Phone, MapPin, UserPlus, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import Input from '../components/Input';
+import Button from '../components/Button';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -19,7 +21,6 @@ const Register = () => {
     e.preventDefault();
     setIsLoading(true);
     setErrorPrompt(null);
-    
     try {
       await register({ name, email, password, role, phone, location });
       navigate('/dashboard');
@@ -30,121 +31,110 @@ const Register = () => {
     }
   };
 
-  const inputClasses = 'w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium placeholder-slate-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 focus:bg-white';
-
   return (
-    <div className="min-h-[calc(100vh-150px)] flex items-center justify-center px-4 py-12 animate-fade-in-up">
-      <div className="w-full max-w-lg bg-white/80 backdrop-blur-xl border border-slate-200 rounded-3xl p-8 md:p-10 shadow-xl shadow-slate-200/50">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-indigo-100 rounded-2xl mb-4">
-            <UserPlus size={24} className="text-indigo-600" />
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-1">Create an Account</h2>
-          <p className="text-slate-500">Sign up to get started</p>
-        </div>
+    <div className="min-h-screen flex bg-[#fafbff] font-['Plus_Jakarta_Sans',sans-serif]">
+      {/* Left side: Form */}
+      <div className="w-full lg:w-3/5 flex items-center justify-center p-8 lg:p-20 relative overflow-y-auto">
+        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-30"></div>
         
-        {errorPrompt && (
-          <div className="bg-red-50 text-red-700 border border-red-200 px-4 py-3 rounded-xl mb-6 text-sm font-medium">
-            {errorPrompt}
-          </div>
-        )}
-
-        <form onSubmit={handleRegister} className="space-y-4">
-          {/* Full Name */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-2" htmlFor="name">Full Name</label>
-            <div className="relative">
-              <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input id="name" type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required className={inputClasses} />
-            </div>
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-2" htmlFor="email">Email Address</label>
-            <div className="relative">
-              <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input id="email" type="email" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className={inputClasses} />
-            </div>
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-2" htmlFor="password">Password</label>
-            <div className="relative">
-              <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input id="password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required className={inputClasses} />
-            </div>
-          </div>
-
-          {/* Phone + Location row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-slate-600 mb-2" htmlFor="phone">Phone</label>
-              <div className="relative">
-                <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input id="phone" type="text" placeholder="+1 (555) 000-0000" value={phone} onChange={(e) => setPhone(e.target.value)} required className={inputClasses} />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-slate-600 mb-2" htmlFor="location">Location</label>
-              <div className="relative">
-                <MapPin size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input id="location" type="text" placeholder="City, State" value={location} onChange={(e) => setLocation(e.target.value)} required className={inputClasses} />
-              </div>
-            </div>
-          </div>
-
-          {/* Role Selector */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-3">I am a...</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setRole('owner')}
-                className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                  role === 'owner'
-                    ? 'border-indigo-500 bg-indigo-50 text-indigo-600'
-                    : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300'
-                }`}
-              >
-                <HomeIcon size={24} />
-                <span className="text-sm font-semibold">House Owner</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole('provider')}
-                className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                  role === 'provider'
-                    ? 'border-emerald-500 bg-emerald-50 text-emerald-600'
-                    : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300'
-                }`}
-              >
-                <Briefcase size={24} />
-                <span className="text-sm font-semibold">Service Provider</span>
-              </button>
-            </div>
-          </div>
-
-          <button 
-            type="submit" 
-            disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 py-3.5 bg-indigo-600 text-white font-semibold rounded-xl shadow-md shadow-indigo-500/30 hover:bg-indigo-700 hover:shadow-indigo-500/40 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
-          >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                Creating Account...
-              </span>
-            ) : 'Register Now'}
-          </button>
-        </form>
-        
-        <div className="text-center mt-8 text-sm text-slate-500">
-          Already have an account?{' '}
-          <Link to="/login" className="text-indigo-600 font-semibold hover:text-indigo-700 transition-colors">
-            Log in
+        <div className="w-full max-w-xl relative z-10">
+          <Link to="/" className="inline-flex lg:hidden items-center gap-2 text-indigo-600 font-bold mb-8">
+            <ArrowLeft size={18} /> Home
           </Link>
+          
+          <div className="mb-10">
+            <h1 className="text-4xl font-black text-slate-900 mb-2">Create Account</h1>
+            <p className="text-slate-500 font-medium">Join our ecosystem and start connecting with local experts.</p>
+          </div>
+
+          {errorPrompt && (
+            <div className="bg-red-50 text-red-600 p-4 rounded-2xl border border-red-100 text-sm font-bold mb-8">
+              {errorPrompt}
+            </div>
+          )}
+
+          <form onSubmit={handleRegister} className="space-y-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+              <Input label="Full Name" icon={User} placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
+              <Input label="Email" type="email" icon={Mail} placeholder="john@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input label="Password" type="password" icon={Lock} placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <Input label="Phone" icon={Phone} placeholder="+1 555-0123" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+              <div className="md:col-span-2">
+                <Input label="Location" icon={MapPin} placeholder="New York, USA" value={location} onChange={(e) => setLocation(e.target.value)} required />
+              </div>
+            </div>
+
+            <div className="mb-8">
+              <label className="block text-sm font-black text-slate-700 mb-4 ml-1">Account Type</label>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={() => setRole('owner')}
+                  className={`flex items-center gap-4 p-5 rounded-[1.5rem] border-2 transition-all duration-300 ${
+                    role === 'owner' 
+                      ? 'border-indigo-600 bg-indigo-50 text-indigo-600 shadow-lg shadow-indigo-100' 
+                      : 'border-slate-100 bg-white text-slate-400 hover:border-slate-200'
+                  }`}
+                >
+                  <div className={`p-2.5 rounded-xl ${role === 'owner' ? 'bg-indigo-600 text-white' : 'bg-slate-100'}`}>
+                    <HomeIcon size={20} />
+                  </div>
+                  <span className="font-extrabold text-sm">House Owner</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('provider')}
+                  className={`flex items-center gap-4 p-5 rounded-[1.5rem] border-2 transition-all duration-300 ${
+                    role === 'provider' 
+                      ? 'border-emerald-500 bg-emerald-50 text-emerald-600 shadow-lg shadow-emerald-100' 
+                      : 'border-slate-100 bg-white text-slate-400 hover:border-slate-200'
+                  }`}
+                >
+                  <div className={`p-2.5 rounded-xl ${role === 'provider' ? 'bg-emerald-500 text-white' : 'bg-slate-100'}`}>
+                    <Briefcase size={20} />
+                  </div>
+                  <span className="font-extrabold text-sm">Provider</span>
+                </button>
+              </div>
+            </div>
+
+            <Button type="submit" className="w-full py-5 text-base font-black rounded-2xl" disabled={isLoading}>
+              {isLoading ? 'Creating Account...' : 'Get Started Now'}
+            </Button>
+          </form>
+
+          <div className="mt-10 text-center text-slate-500 font-bold">
+            Already have an account?{' '}
+            <Link to="/login" className="text-indigo-600 hover:text-indigo-700">Sign in</Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Right side: Visual */}
+      <div className="hidden lg:flex lg:w-2/5 bg-slate-900 relative items-center justify-center p-16 overflow-hidden">
+        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+        <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-indigo-600/30 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-1/4 left-0 w-[300px] h-[300px] bg-emerald-500/20 rounded-full blur-[80px]"></div>
+        
+        <div className="relative z-10">
+          <div className="space-y-8">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 max-w-xs">
+              <div className="flex gap-1 mb-4 text-amber-400"><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /><Star size={16} fill="currentColor" /></div>
+              <p className="text-white font-medium italic mb-4 text-sm">"The best platform I've used to grow my plumbing business. Incredible clients."</p>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-indigo-500"></div>
+                <div className="text-xs font-bold text-white">Marc S. <span className="block text-slate-400 font-medium">Plumber Expert</span></div>
+              </div>
+            </div>
+            
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 max-w-xs ml-12">
+              <p className="text-white font-medium italic mb-4 text-sm">"Found a cleaner for my penthouse in minutes. Seamless and secure."</p>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-emerald-500"></div>
+                <div className="text-xs font-bold text-white">Sarah L. <span className="block text-slate-400 font-medium">House Owner</span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

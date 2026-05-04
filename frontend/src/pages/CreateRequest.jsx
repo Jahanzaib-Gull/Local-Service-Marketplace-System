@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { UploadCloud, CheckCircle, MapPin, AlignLeft } from 'lucide-react';
+import { UploadCloud, CheckCircle, MapPin, AlignLeft, DollarSign, Calendar, ArrowLeft } from 'lucide-react';
 import Input from '../components/Input';
+import Button from '../components/Button';
 
 const CreateRequest = () => {
   const navigate = useNavigate();
@@ -25,26 +26,16 @@ const CreateRequest = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
     try {
       const token = localStorage.getItem('token');
       const res = await fetch('http://localhost:5000/api/requests', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(formData)
       });
-      
       if (res.ok) {
         setSubmitted(true);
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 2000);
-      } else {
-        const errData = await res.json();
-        alert(errData.message || 'Failed to submit request');
+        setTimeout(() => navigate('/dashboard'), 2500);
       }
     } catch (err) {
       console.error(err);
@@ -54,122 +45,78 @@ const CreateRequest = () => {
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.id]: e.target.value });
 
   if (submitted) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-6 animate-fade-in-up">
-        <div className="p-6 bg-emerald-100 rounded-full mb-6">
-          <CheckCircle size={64} className="text-emerald-500" />
+      <div className="min-h-screen flex items-center justify-center bg-[#fafbff] px-6">
+        <div className="max-w-md w-full text-center p-12 bg-white rounded-[3rem] shadow-2xl border border-slate-100 animate-fade-in-up">
+          <div className="w-24 h-24 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
+            <CheckCircle size={48} />
+          </div>
+          <h2 className="text-3xl font-black text-slate-900 mb-4">Job Published!</h2>
+          <p className="text-slate-500 font-bold mb-8 leading-relaxed">Your request is now live. We are notifying the best pros in your area right now.</p>
+          <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-full bg-emerald-500 animate-[progress_2s_ease-in-out]"></div>
+          </div>
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-3">Request Submitted Successfully!</h2>
-        <p className="text-slate-600 text-lg max-w-md">
-          Your service request has been posted. Service providers will be able to review and accept your job shortly.
-        </p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-8 animate-fade-in-up">
-      <div className="text-center mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Post a New Job</h1>
-        <p className="text-slate-600 text-lg">
-          Provide the necessary details so we can match you with the best professionals.
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#fafbff] pt-32 pb-20 px-6 font-['Plus_Jakarta_Sans',sans-serif]">
+      <div className="max-w-4xl mx-auto">
+        <Link to="/dashboard" className="inline-flex items-center gap-2 text-slate-400 font-black mb-8 hover:text-indigo-600 transition-colors uppercase tracking-widest text-xs">
+          <ArrowLeft size={16} /> Dashboard
+        </Link>
+        
+        <div className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">Post a new <span className="text-indigo-600">Job Request</span></h1>
+          <p className="text-xl text-slate-500 font-medium">Describe your needs and we'll match you with the right professionals.</p>
+        </div>
 
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input 
-              id="title" 
-              label="Job Title" 
-              placeholder="e.g. Broken Pipe Repair" 
-              value={formData.title}
-              onChange={handleChange}
-              required 
-              className="!mb-0"
-            />
-            
-            <Input 
-              id="category"
-              label="Category"
-              type="select"
-              value={formData.category}
-              onChange={handleChange}
-              required
-              className="!mb-0"
-            >
-              <option value="" disabled>Select a category</option>
-              <option value="plumbing">Plumbing</option>
-              <option value="electrical">Electrical</option>
-              <option value="cleaning">Cleaning</option>
-              <option value="hvac">HVAC Repair</option>
-              <option value="appliance">Appliance Repair</option>
-              <option value="other">Other</option>
-            </Input>
-          </div>
-
-          <Input 
-            id="description"
-            label="Job Description"
-            type="textarea"
-            icon={AlignLeft}
-            rows="5"
-            placeholder="Please describe the issue in detail..."
-            value={formData.description}
-            onChange={handleChange}
-            required
-            className="!mb-0"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input 
-              id="location"
-              label="Location"
-              icon={MapPin}
-              placeholder="Enter your address"
-              value={formData.location}
-              onChange={handleChange}
-              required
-              className="!mb-0"
-            />
-            
-            <Input 
-              id="budget"
-              label="Budget ($)"
-              type="number"
-              placeholder="150"
-              value={formData.budget}
-              onChange={handleChange}
-              required
-              className="!mb-0"
-            />
-          </div>
-
-          {/* Upload Area */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-600 mb-2">Attach Photos (Optional)</label>
-            <div className="border-2 border-dashed border-slate-200 rounded-2xl p-8 md:p-12 text-center cursor-pointer bg-slate-50 transition-all duration-200 hover:border-indigo-400 hover:bg-indigo-50/30 group">
-              <UploadCloud size={40} className="mx-auto mb-3 text-slate-400 group-hover:text-indigo-500 transition-colors" />
-              <p className="font-semibold text-slate-700 mb-1">Click to upload or drag and drop</p>
-              <p className="text-sm text-slate-500">PNG, JPG or GIF (max. 5MB)</p>
+        <div className="bg-white border border-slate-100 rounded-[3rem] p-8 md:p-16 shadow-2xl shadow-slate-100/50">
+          <form onSubmit={handleSubmit} className="space-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+              <Input id="title" label="What do you need help with?" placeholder="e.g. Living room wall painting" value={formData.title} onChange={handleChange} required />
+              <Input id="category" label="Job Category" type="select" value={formData.category} onChange={handleChange} required>
+                <option value="" disabled>Select category</option>
+                <option value="plumbing">Plumbing</option>
+                <option value="electrical">Electrical</option>
+                <option value="cleaning">Cleaning</option>
+                <option value="hvac">HVAC Repair</option>
+                <option value="appliance">Appliance Repair</option>
+                <option value="other">Other</option>
+              </Input>
             </div>
-          </div>
 
-          <div className="flex justify-center pt-4">
-            <button 
-              type="submit" 
-              disabled={isLoading}
-              className="px-12 py-4 bg-indigo-600 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 hover:shadow-indigo-500/40 transition-all duration-200 text-base disabled:opacity-50"
-            >
-              {isLoading ? 'Submitting...' : 'Publish Service Request'}
-            </button>
-          </div>
-        </form>
+            <Input id="description" label="Detailed Description" type="textarea" icon={AlignLeft} rows="4" placeholder="Mention tools needed, specific issues, or special requirements..." value={formData.description} onChange={handleChange} required />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+              <Input id="location" label="Location" icon={MapPin} placeholder="Enter your address" value={formData.location} onChange={handleChange} required />
+              <Input id="budget" label="Est. Budget ($)" type="number" icon={DollarSign} placeholder="150" value={formData.budget} onChange={handleChange} required />
+            </div>
+
+            {/* Upload Area */}
+            <div className="mb-10 pt-4">
+              <label className="block text-sm font-black text-slate-700 mb-3 ml-1 uppercase tracking-widest">Visual Reference (Optional)</label>
+              <div className="border-3 border-dashed border-slate-100 rounded-[2rem] p-12 text-center cursor-pointer bg-slate-50/50 transition-all duration-300 hover:border-indigo-400 hover:bg-indigo-50/30 group">
+                <div className="inline-flex p-5 bg-white rounded-2xl shadow-sm text-slate-400 group-hover:text-indigo-600 group-hover:scale-110 transition-all mb-4">
+                  <UploadCloud size={32} />
+                </div>
+                <p className="font-black text-slate-900 mb-1">Click to upload photos</p>
+                <p className="text-sm font-bold text-slate-400">Add up to 5 photos for better accuracy</p>
+              </div>
+            </div>
+
+            <div className="pt-8">
+              <Button type="submit" disabled={isLoading} className="w-full py-5 text-lg font-black rounded-2xl shadow-2xl shadow-indigo-100">
+                {isLoading ? 'Publishing Request...' : 'Publish Job Request Now'}
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
