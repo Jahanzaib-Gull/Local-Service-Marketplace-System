@@ -56,7 +56,7 @@ const Navbar = () => {
           )}
         </div>
         
-        <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', display: 'none' }}>
+        <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer' }}>
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
