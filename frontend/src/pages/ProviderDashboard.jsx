@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Briefcase, TrendingUp, Calendar, CheckCircle, XCircle } from 'lucide-react';
-import Card from '../components/Card';
-import Button from '../components/Button';
+import { Briefcase, TrendingUp, CheckCircle, XCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const ProviderDashboard = () => {
@@ -50,7 +48,7 @@ const ProviderDashboard = () => {
         });
         
         if (res.ok) {
-          fetchMetrics(); // reload metrics after successful accept
+          fetchMetrics();
         } else {
           const data = await res.json();
           alert(data.message || 'Failed to accept the request.');
@@ -59,7 +57,6 @@ const ProviderDashboard = () => {
         console.error('Failed to accept request', err);
       }
     } else {
-      // For reject in local view, just remove from recentJobs array optimistically
       setMetrics(prev => ({
         ...prev,
         recentJobs: prev.recentJobs.filter(req => req._id !== id)
@@ -68,90 +65,97 @@ const ProviderDashboard = () => {
   };
 
   if (isLoading) {
-    return <div className="container flex-center" style={{ minHeight: '50vh' }}>Loading dashboard...</div>;
+    return (
+      <div className="min-h-[50vh] flex items-center justify-center text-slate-500">
+        <svg className="animate-spin h-6 w-6 mr-3 text-emerald-600" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+        Loading dashboard...
+      </div>
+    );
   }
 
   const { stats = { availableJobs: 0, activeJobs: 0, completedJobs: 0 }, recentJobs = [] } = metrics || {};
 
+  const statCards = [
+    { label: 'Available Jobs', value: stats.availableJobs, icon: Briefcase, borderColor: 'border-l-indigo-500', iconBg: 'bg-indigo-100', iconText: 'text-indigo-600' },
+    { label: 'Accepted Jobs', value: stats.activeJobs, icon: TrendingUp, borderColor: 'border-l-emerald-500', iconBg: 'bg-emerald-100', iconText: 'text-emerald-600' },
+  ];
+
   return (
-    <div className="container animate-fade-in" style={{ padding: '0 2.5rem 2rem' }}>
-      <div className="flex-between" style={{ marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
-        <div>
-          <h1 style={{ marginBottom: '0.2rem', color: 'var(--text-primary)' }}>Provider Dashboard</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>Review new requests and manage your active jobs.</p>
-        </div>
+    <div className="max-w-6xl mx-auto px-6 py-8 animate-fade-in-up">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">Provider Dashboard</h1>
+        <p className="text-slate-500">Review new requests and manage your active jobs.</p>
       </div>
 
-      <div className="grid grid-cols-3" style={{ marginBottom: '2.5rem' }}>
-        <Card className="flex-between" style={{ borderLeft: '4px solid var(--accent-primary)' }}>
-          <div>
-            <p className="form-label" style={{ marginBottom: '0.2rem' }}>Available Jobs</p>
-            <h2 style={{ margin: 0, fontSize: '2rem' }}>{stats.availableJobs}</h2>
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
+        {statCards.map((card, i) => (
+          <div key={i} className={`bg-white border border-slate-200 rounded-2xl p-6 flex items-center justify-between border-l-4 ${card.borderColor} shadow-sm`}>
+            <div>
+              <p className="text-sm font-semibold text-slate-500 mb-1">{card.label}</p>
+              <h2 className="text-3xl font-bold text-slate-900">{card.value}</h2>
+            </div>
+            <div className={`p-3 rounded-full ${card.iconBg}`}>
+              <card.icon size={22} className={card.iconText} />
+            </div>
           </div>
-          <div style={{ background: 'var(--bg-primary)', padding: '1rem', borderRadius: '50%', color: 'var(--accent-primary)' }}>
-            <Briefcase size={24} />
-          </div>
-        </Card>
-
-        <Card className="flex-between" style={{ borderLeft: '4px solid var(--success)' }}>
-          <div>
-            <p className="form-label" style={{ marginBottom: '0.2rem' }}>Accepted Jobs</p>
-            <h2 style={{ margin: 0, fontSize: '2rem' }}>{stats.activeJobs}</h2>
-          </div>
-          <div style={{ background: '#d1fae5', padding: '1rem', borderRadius: '50%', color: 'var(--success)' }}>
-            <TrendingUp size={24} />
-          </div>
-        </Card>
+        ))}
       </div>
 
-      <Card style={{ padding: '0' }}>
-        <div className="flex-between" style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--border-color)', background: 'var(--bg-primary)', borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0' }}>
-          <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Latest Service Requests</h3>
+      {/* Recent Jobs Table */}
+      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 bg-slate-50 border-b border-slate-200">
+          <h3 className="text-base font-bold text-slate-900">Latest Service Requests</h3>
         </div>
         
-        <div style={{ overflowX: 'auto' }}>
-          <table className="data-table">
+        <div className="overflow-x-auto">
+          <table className="w-full">
             <thead>
-              <tr>
-                <th>ID & Title</th>
-                <th>Category</th>
-                <th>Location</th>
-                <th>Budget</th>
-                <th>Action</th>
+              <tr className="border-b border-slate-100">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">ID & Title</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">Location</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Budget</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Action</th>
               </tr>
             </thead>
             <tbody>
               {recentJobs && recentJobs.length > 0 ? recentJobs.map(req => (
-                <tr key={req._id}>
-                  <td>
-                    <div style={{ fontWeight: '600', color: 'var(--text-primary)' }}>{req.title}</div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>{req._id.substring(0, 8)}</div>
+                <tr key={req._id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                  <td className="px-6 py-4">
+                    <div className="text-sm font-semibold text-slate-900">{req.title}</div>
+                    <div className="text-xs text-slate-400 mt-0.5">{req._id.substring(0, 8)}</div>
                   </td>
-                  <td style={{ color: 'var(--text-secondary)' }}>{req.category}</td>
-                  <td>
-                    <div style={{ color: 'var(--text-primary)', fontSize: '0.9rem' }}>{req.location}</div>
-                  </td>
-                  <td style={{ fontWeight: '500', color: 'var(--success)' }}>${req.budget}</td>
-                  <td>
-                    <div className="flex-center" style={{ gap: '0.5rem', justifyContent: 'flex-start' }}>
-                      <Button variant="primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }} onClick={() => handleAction(req._id, 'accept')}>
-                        <CheckCircle size={14} /> Accept
-                      </Button>
-                      <Button variant="danger" style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }} onClick={() => handleAction(req._id, 'reject')}>
-                        <XCircle size={14} /> Reject
-                      </Button>
+                  <td className="px-6 py-4 text-sm text-slate-500 hidden md:table-cell">{req.category}</td>
+                  <td className="px-6 py-4 text-sm text-slate-700 hidden lg:table-cell">{req.location}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-emerald-600">${req.budget}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <button 
+                        onClick={() => handleAction(req._id, 'accept')}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+                      >
+                        <CheckCircle size={13} /> Accept
+                      </button>
+                      <button 
+                        onClick={() => handleAction(req._id, 'reject')}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 bg-white text-red-600 border border-red-200 text-xs font-semibold rounded-lg hover:bg-red-50 transition-colors"
+                      >
+                        <XCircle size={13} /> Reject
+                      </button>
                     </div>
                   </td>
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan="5" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>No fresh requests right now.</td>
+                  <td colSpan="5" className="px-6 py-12 text-center text-slate-400">No fresh requests right now.</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { UploadCloud, CheckCircle, MapPin, AlignLeft } from 'lucide-react';
-import Card from '../components/Card';
 import Input from '../components/Input';
-import Button from '../components/Button';
 
 const CreateRequest = () => {
   const navigate = useNavigate();
@@ -62,10 +60,12 @@ const CreateRequest = () => {
 
   if (submitted) {
     return (
-      <div className="container flex-col flex-center animate-fade-in" style={{ minHeight: '60vh', textAlign: 'center' }}>
-        <CheckCircle size={80} color="var(--success)" style={{ marginBottom: '1.5rem', filter: 'drop-shadow(0 0 10px rgba(16, 185, 129, 0.2))' }} />
-        <h2>Request Submitted Successfully!</h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '400px' }}>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-6 animate-fade-in-up">
+        <div className="p-6 bg-emerald-100 rounded-full mb-6">
+          <CheckCircle size={64} className="text-emerald-500" />
+        </div>
+        <h2 className="text-2xl font-bold text-slate-900 mb-3">Request Submitted Successfully!</h2>
+        <p className="text-slate-600 text-lg max-w-md">
           Your service request has been posted. Service providers will be able to review and accept your job shortly.
         </p>
       </div>
@@ -73,17 +73,17 @@ const CreateRequest = () => {
   }
 
   return (
-    <div className="container animate-fade-in" style={{ padding: '0 2.5rem 2rem', maxWidth: '900px' }}>
-      <div style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
-        <h1 style={{ marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Post a New Job</h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+    <div className="max-w-4xl mx-auto px-6 py-8 animate-fade-in-up">
+      <div className="text-center mb-10">
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Post a New Job</h1>
+        <p className="text-slate-600 text-lg">
           Provide the necessary details so we can match you with the best professionals.
         </p>
       </div>
 
-      <Card>
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2" style={{ gap: '2rem' }}>
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input 
               id="title" 
               label="Job Title" 
@@ -91,6 +91,7 @@ const CreateRequest = () => {
               value={formData.title}
               onChange={handleChange}
               required 
+              className="!mb-0"
             />
             
             <Input 
@@ -100,6 +101,7 @@ const CreateRequest = () => {
               value={formData.category}
               onChange={handleChange}
               required
+              className="!mb-0"
             >
               <option value="" disabled>Select a category</option>
               <option value="plumbing">Plumbing</option>
@@ -111,21 +113,20 @@ const CreateRequest = () => {
             </Input>
           </div>
 
-          <div style={{ marginTop: '1.5rem' }}>
-            <Input 
-              id="description"
-              label="Job Description"
-              type="textarea"
-              icon={AlignLeft}
-              rows="5"
-              placeholder="Please describe the issue in detail..."
-              value={formData.description}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <Input 
+            id="description"
+            label="Job Description"
+            type="textarea"
+            icon={AlignLeft}
+            rows="5"
+            placeholder="Please describe the issue in detail..."
+            value={formData.description}
+            onChange={handleChange}
+            required
+            className="!mb-0"
+          />
 
-          <div className="grid grid-cols-2" style={{ gap: '2rem', marginTop: '1.5rem' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input 
               id="location"
               label="Location"
@@ -134,6 +135,7 @@ const CreateRequest = () => {
               value={formData.location}
               onChange={handleChange}
               required
+              className="!mb-0"
             />
             
             <Input 
@@ -144,37 +146,31 @@ const CreateRequest = () => {
               value={formData.budget}
               onChange={handleChange}
               required
+              className="!mb-0"
             />
           </div>
 
-          <div className="form-group" style={{ marginTop: '2rem' }}>
-            <label className="form-label">Attach Photos (Optional)</label>
-            <div 
-              style={{ 
-                border: '2px dashed var(--border-color)', 
-                borderRadius: 'var(--radius-lg)', 
-                padding: '3rem', 
-                textAlign: 'center', 
-                cursor: 'pointer',
-                background: 'var(--bg-primary)',
-                transition: 'var(--transition)'
-              }}
-              onMouseOver={(e) => {e.currentTarget.style.borderColor = 'var(--accent-primary)'; e.currentTarget.style.background = 'rgba(79, 70, 229, 0.02)'}}
-              onMouseOut={(e) => {e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.background = 'var(--bg-primary)'}}
-            >
-              <UploadCloud size={48} color="var(--text-secondary)" style={{ margin: '0 auto 1rem' }} />
-              <p style={{ fontWeight: '600', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>Click to upload or drag and drop</p>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>PNG, JPG or GIF (max. 5MB)</p>
+          {/* Upload Area */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-600 mb-2">Attach Photos (Optional)</label>
+            <div className="border-2 border-dashed border-slate-200 rounded-2xl p-8 md:p-12 text-center cursor-pointer bg-slate-50 transition-all duration-200 hover:border-indigo-400 hover:bg-indigo-50/30 group">
+              <UploadCloud size={40} className="mx-auto mb-3 text-slate-400 group-hover:text-indigo-500 transition-colors" />
+              <p className="font-semibold text-slate-700 mb-1">Click to upload or drag and drop</p>
+              <p className="text-sm text-slate-500">PNG, JPG or GIF (max. 5MB)</p>
             </div>
           </div>
 
-          <div className="flex-center" style={{ marginTop: '3.5rem' }}>
-            <Button type="submit" variant="primary" style={{ padding: '1rem 4rem', fontSize: '1.05rem', boxShadow: '0 4px 10px rgba(79, 70, 229, 0.3)' }}>
-              Publish Service Request
-            </Button>
+          <div className="flex justify-center pt-4">
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              className="px-12 py-4 bg-indigo-600 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 hover:shadow-indigo-500/40 transition-all duration-200 text-base disabled:opacity-50"
+            >
+              {isLoading ? 'Submitting...' : 'Publish Service Request'}
+            </button>
           </div>
         </form>
-      </Card>
+      </div>
     </div>
   );
 };
