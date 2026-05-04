@@ -41,6 +41,12 @@ const Register = () => {
           <p style={{ color: 'var(--text-secondary)' }}>Sign up to get started</p>
         </div>
         
+        {errorPrompt && (
+          <div style={{ backgroundColor: 'var(--accent-red, #ffebee)', color: 'var(--accent-red-hover, #c62828)', padding: '0.75rem', borderRadius: '0.5rem', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
+            {errorPrompt}
+          </div>
+        )}
+
         <form onSubmit={handleRegister} className="flex-col" style={{ gap: '1.5rem' }}>
           <Input 
             id="name"
@@ -124,7 +130,7 @@ const Register = () => {
             </div>
           </div>
 
-          {errorPrompt && <div style={{ color: 'var(--error)', fontSize: '0.85rem', textAlign: 'center' }}>{errorPrompt}</div>}
+
           
           <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1rem', padding: '0.85rem' }} disabled={isLoading}>
             {isLoading ? 'Creating Account...' : 'Register Now'}

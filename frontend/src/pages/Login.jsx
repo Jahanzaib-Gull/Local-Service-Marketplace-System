@@ -37,6 +37,12 @@ const Login = () => {
           <p style={{ color: 'var(--text-secondary)' }}>Sign in to your account</p>
         </div>
         
+        {errorPrompt && (
+          <div style={{ backgroundColor: 'var(--accent-red, #ffebee)', color: 'var(--accent-red-hover, #c62828)', padding: '0.75rem', borderRadius: '0.5rem', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
+            {errorPrompt}
+          </div>
+        )}
+
         <form onSubmit={handleLogin} className="flex-col" style={{ gap: '1.5rem' }}>
           <Input 
             id="email"
@@ -66,7 +72,7 @@ const Login = () => {
             />
           </div>
 
-          {errorPrompt && <div style={{ color: 'var(--error)', fontSize: '0.85rem', textAlign: 'center', marginTop: '-0.5rem' }}>{errorPrompt}</div>}
+
           
           <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1.5rem', padding: '0.85rem' }} disabled={isLoading}>
             {isLoading ? 'Authenticating...' : <><LogIn size={20} /> Sign In</>}
