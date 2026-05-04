@@ -1,74 +1,104 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Home as HomeIcon, Wrench } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Home as HomeIcon, Wrench, ShieldCheck, Zap, Star, ArrowRight } from 'lucide-react';
+import Button from '../components/Button';
 
 const Landing = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-[calc(100vh-80px)] overflow-hidden bg-slate-50 flex items-center justify-center">
-      {/* Decorative background gradients (Tailwind way) */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-500/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-      <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-emerald-500/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-      <div className="absolute bottom-[-20%] left-[20%] w-[600px] h-[600px] bg-sky-500/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+    <div className="relative min-h-screen bg-[#fafbff] overflow-hidden">
+      {/* Immersive Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-5%] w-[800px] h-[800px] bg-indigo-200/40 rounded-full mix-blend-multiply filter blur-[120px] animate-blob"></div>
+        <div className="absolute bottom-[-10%] right-[-5%] w-[700px] h-[700px] bg-emerald-100/40 rounded-full mix-blend-multiply filter blur-[120px] animate-blob animation-delay-2000"></div>
+        <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-sky-200/30 rounded-full mix-blend-multiply filter blur-[100px] animate-blob animation-delay-4000"></div>
+      </div>
 
-      <section className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 flex flex-col items-center">
-        <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto space-y-8 animate-fade-in-up mb-16">
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 drop-shadow-sm leading-tight">
-            Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-sky-500">Local Service Marketplace</span>
+      <div className="relative z-10 pt-32 pb-20 px-6">
+        {/* Hero Content */}
+        <div className="max-w-7xl mx-auto flex flex-col items-center text-center space-y-10 mb-24">
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full border border-slate-200 shadow-sm animate-fade-in-up">
+            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="text-xs font-extrabold text-slate-600 tracking-wider uppercase">Trusted by 5,000+ Providers</span>
+          </div>
+
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight text-slate-900 leading-[1.05] max-w-5xl animate-fade-in-up">
+            Find the perfect <span className="text-indigo-600">Pro</span> for any task <span className="relative">instantly<span className="absolute bottom-2 left-0 w-full h-4 bg-indigo-200/60 -z-10 rounded-full"></span></span>.
           </h1>
-          <p className="text-xl text-slate-600 max-w-2xl leading-relaxed">
-            Are you looking to hire a trusted professional, or are you a skilled provider looking for local work?
+
+          <p className="text-xl md:text-2xl text-slate-500 max-w-2xl leading-relaxed animate-fade-in-up animation-delay-200">
+            The world's most sophisticated marketplace for local services. Plumbers, cleaners, and experts at your fingertips.
           </p>
         </div>
-          
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl animate-fade-in-up animation-delay-500">
+
+        {/* Choice Grid */}
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
           
           {/* Owner Card */}
           <div 
             onClick={() => navigate('/owner')}
-            className="group relative bg-white/90 backdrop-blur-2xl border border-slate-200 rounded-[2.5rem] p-12 flex flex-col items-center text-center cursor-pointer transition-all duration-500 hover:-translate-y-4 hover:shadow-[0_30px_60px_-15px_rgba(79,70,229,0.3)] hover:border-indigo-400"
+            className="group relative bg-white border border-slate-100 rounded-[3rem] p-12 overflow-hidden cursor-pointer transition-all duration-700 hover:-translate-y-5 hover:shadow-[0_40px_100px_-20px_rgba(79,70,229,0.15)] hover:border-indigo-200"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/40 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute top-0 right-0 -translate-y-12 translate-x-12 w-48 h-48 bg-indigo-50 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
             
-            <div className="relative z-10 p-6 bg-indigo-100/60 text-indigo-600 rounded-[2rem] mb-8 transition-all duration-500 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white group-hover:rotate-3 shadow-sm">
-              <HomeIcon size={56} strokeWidth={1.5} />
+            <div className="relative z-10 mb-10 inline-flex p-8 bg-indigo-600 text-white rounded-[2.5rem] shadow-2xl shadow-indigo-500/50 group-hover:rotate-6 transition-all duration-500">
+              <HomeIcon size={48} strokeWidth={2} />
             </div>
+
+            <h2 className="relative z-10 text-4xl font-black text-slate-900 mb-4">I want to Hire</h2>
+            <p className="relative z-10 text-slate-500 text-lg mb-10 leading-relaxed max-w-xs">Access top-tier professionals for your home, office, and events with absolute security.</p>
             
-            <h2 className="relative z-10 text-3xl font-bold text-slate-900 mb-4">I am a House Owner</h2>
-            <p className="relative z-10 text-slate-600 text-lg mb-10 flex-grow leading-relaxed">Find highly-rated professionals for your home repairs, deep cleaning, landscaping, and more.</p>
-            
-            <button 
-              onClick={(e) => { e.stopPropagation(); navigate('/owner'); }}
-              className="relative z-10 w-full py-4.5 px-8 bg-indigo-600 text-white text-lg font-bold rounded-2xl shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] hover:bg-indigo-700 hover:shadow-[0_10px_25px_rgba(79,70,229,0.25)] transition-all duration-300 active:scale-95"
-            >
-              Explore Services
-            </button>
+            <div className="relative z-10 flex items-center gap-4 text-indigo-600 font-black text-lg group/btn">
+              Explore Services <div className="p-2.5 bg-indigo-50 rounded-2xl group-hover/btn:translate-x-2 transition-all"><ArrowRight size={20} /></div>
+            </div>
           </div>
 
           {/* Provider Card */}
           <div 
             onClick={() => navigate('/provider')}
-            className="group relative bg-white/90 backdrop-blur-2xl border border-slate-200 rounded-[2.5rem] p-12 flex flex-col items-center text-center cursor-pointer transition-all duration-500 hover:-translate-y-4 hover:shadow-[0_30px_60px_-15px_rgba(16,185,129,0.3)] hover:border-emerald-400"
+            className="group relative bg-slate-900 rounded-[3rem] p-12 overflow-hidden cursor-pointer transition-all duration-700 hover:-translate-y-5 hover:shadow-[0_40px_100px_-20px_rgba(16,185,129,0.3)] border border-slate-800"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-emerald-50/40 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-            <div className="relative z-10 p-6 bg-emerald-100/60 text-emerald-600 rounded-[2rem] mb-8 transition-all duration-500 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white group-hover:-rotate-3 shadow-sm">
-              <Wrench size={56} strokeWidth={1.5} />
+            <div className="absolute top-0 right-0 -translate-y-12 translate-x-12 w-48 h-48 bg-emerald-500/10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+            
+            <div className="relative z-10 mb-10 inline-flex p-8 bg-emerald-500 text-white rounded-[2.5rem] shadow-2xl shadow-emerald-500/50 group-hover:-rotate-6 transition-all duration-500">
+              <Wrench size={48} strokeWidth={2} />
             </div>
+
+            <h2 className="relative z-10 text-4xl font-black text-white mb-4">I want to Work</h2>
+            <p className="relative z-10 text-slate-400 text-lg mb-10 leading-relaxed max-w-xs">Monetize your skills, reach verified clients, and build your digital service empire today.</p>
             
-            <h2 className="relative z-10 text-3xl font-bold text-slate-900 mb-4">I am a Service Provider</h2>
-            <p className="relative z-10 text-slate-600 text-lg mb-10 flex-grow leading-relaxed">Find high-paying local jobs, connect with reliable clients, and rapidly grow your business.</p>
-            
-            <button 
-              onClick={(e) => { e.stopPropagation(); navigate('/provider'); }}
-              className="relative z-10 w-full py-4.5 px-8 bg-white text-emerald-600 border-2 border-emerald-500 text-lg font-bold rounded-2xl hover:bg-emerald-50 transition-all duration-300 active:scale-95 shadow-sm"
-            >
-              Find Jobs
-            </button>
+            <div className="relative z-10 flex items-center gap-4 text-emerald-400 font-black text-lg group/btn">
+              Join as Provider <div className="p-2.5 bg-emerald-500/10 rounded-2xl group-hover/btn:translate-x-2 transition-all"><ArrowRight size={20} /></div>
+            </div>
           </div>
         </div>
-      </section>
+
+        {/* Trust Badges */}
+        <div className="max-w-5xl mx-auto mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-slate-100 pt-16">
+          <div className="flex items-start gap-5">
+            <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shrink-0"><ShieldCheck size={32} /></div>
+            <div>
+              <h4 className="text-xl font-black text-slate-900 mb-2">Verified Pros</h4>
+              <p className="text-slate-500 leading-relaxed">Every professional undergoes a 7-step background verification.</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-5">
+            <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl shrink-0"><Zap size={32} /></div>
+            <div>
+              <h4 className="text-xl font-black text-slate-900 mb-2">Instant Match</h4>
+              <p className="text-slate-500 leading-relaxed">Find an expert in under 60 seconds with our AI matching.</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-5">
+            <div className="p-4 bg-amber-50 text-amber-600 rounded-2xl shrink-0"><Star size={32} /></div>
+            <div>
+              <h4 className="text-xl font-black text-slate-900 mb-2">Top Rated</h4>
+              <p className="text-slate-500 leading-relaxed">Average service rating of 4.9/5 from 100k+ reviews.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
