@@ -14,36 +14,6 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-<<<<<<< HEAD
-  const [error, setError] = useState('');
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-    
-    try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // Assume `data` structure is what backend sends for user: { _id, name, email, role, token }
-        login(data);
-        // Also save token/user if needed but context will hold it for now
-        navigate('/dashboard');
-      } else {
-        setError(data.message || 'Login failed. Please check your credentials.');
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again later.');
-=======
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -54,7 +24,6 @@ const Login = () => {
       navigate('/dashboard');
     } catch (error) {
       setErrorPrompt(error.message);
->>>>>>> a147018f94489134dead8237dba47586b1d240eb
     } finally {
       setIsLoading(false);
     }
@@ -68,9 +37,9 @@ const Login = () => {
           <p style={{ color: 'var(--text-secondary)' }}>Sign in to your account</p>
         </div>
         
-        {error && (
+        {errorPrompt && (
           <div style={{ backgroundColor: 'var(--accent-red, #ffebee)', color: 'var(--accent-red-hover, #c62828)', padding: '0.75rem', borderRadius: '0.5rem', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
-            {error}
+            {errorPrompt}
           </div>
         )}
 
@@ -103,7 +72,7 @@ const Login = () => {
             />
           </div>
 
-          {errorPrompt && <div style={{ color: 'var(--error)', fontSize: '0.85rem', textAlign: 'center', marginTop: '-0.5rem' }}>{errorPrompt}</div>}
+
           
           <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1.5rem', padding: '0.85rem' }} disabled={isLoading}>
             {isLoading ? 'Authenticating...' : <><LogIn size={20} /> Sign In</>}

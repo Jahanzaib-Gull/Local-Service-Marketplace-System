@@ -3,9 +3,6 @@ import { Search, Filter, MapPin, Clock, DollarSign, Briefcase } from 'lucide-rea
 import Card from '../components/Card';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -13,26 +10,13 @@ const ServiceListings = () => {
   const { user } = useAuth();
   const [filter, setFilter] = useState('All Categories');
   const [search, setSearch] = useState('');
-<<<<<<< HEAD
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useAuth();
   const navigate = useNavigate();
-=======
 
   if (!user || user.role !== 'ServiceProvider') {
     return <Navigate to="/dashboard" replace />;
   }
-  
-  const jobs = [
-    { id: 1, title: 'Emergency Pipe Leak Repair', category: 'Plumbing', location: 'Downtown', time: 'Urgent (Today)', budget: '$150-$250', desc: 'Water leaking heavily from kitchen sink drain pipe. Need immediate assistance.' },
-    { id: 2, title: 'Full House Deep Cleaning', category: 'Cleaning', location: 'Westside', time: 'Tomorrow Morning', budget: '$100-$150', desc: 'Moving out cleaning required for a 3-bedroom apartment.' },
-    { id: 3, title: 'Main Breaker Box Inspection', category: 'Electrical', location: 'North Hills', time: 'Within 3 Days', budget: '$80-$120', desc: 'Experiencing frequent power trips in the living room and kitchen areas.' },
-    { id: 4, title: 'AC Not Cooling Correctly', category: 'HVAC', location: 'South End', time: 'Flexible', budget: '$100-$200', desc: 'Central AC system is running but blowing warm air.' },
-    { id: 5, title: 'Washing Machine Repair', category: 'Appliance', location: 'City Center', time: 'Tomorrow Afternoon', budget: '$70-$100', desc: 'Washing machine stops halfway through the spin cycle and flashes error 4C.' },
-    { id: 6, title: 'Install New Chandelier', category: 'Electrical', location: 'East Side', time: 'Weekend', budget: '$80-$150', desc: 'Need professional installation for a heavy crystal chandelier in the dining room.' }
-  ];
->>>>>>> a147018f94489134dead8237dba47586b1d240eb
 
   const fetchJobs = async () => {
     try {

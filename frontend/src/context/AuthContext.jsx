@@ -4,18 +4,6 @@ import api from '../api';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-<<<<<<< HEAD
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
-
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-    if (userData.token) {
-      localStorage.setItem('token', userData.token);
-=======
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -54,18 +42,12 @@ export const AuthProvider = ({ children }) => {
       throw error.response && error.response.data.message
         ? new Error(error.response.data.message)
         : new Error(error.message);
->>>>>>> a147018f94489134dead8237dba47586b1d240eb
     }
   };
 
   const logout = () => {
     setUser(null);
-<<<<<<< HEAD
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-=======
     localStorage.removeItem('userInfo');
->>>>>>> a147018f94489134dead8237dba47586b1d240eb
   };
 
   return (

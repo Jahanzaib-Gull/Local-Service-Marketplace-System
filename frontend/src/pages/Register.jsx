@@ -18,34 +18,6 @@ const Register = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
 
-<<<<<<< HEAD
-  const [error, setError] = useState('');
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: name || 'User', email, password, phone, location, role }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        login(data);
-        navigate('/dashboard');
-      } else {
-        setError(data.message || 'Registration failed.');
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
-=======
   const handleRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -56,7 +28,6 @@ const Register = () => {
       navigate('/dashboard');
     } catch (error) {
       setErrorPrompt(error.message);
->>>>>>> a147018f94489134dead8237dba47586b1d240eb
     } finally {
       setIsLoading(false);
     }
@@ -70,9 +41,9 @@ const Register = () => {
           <p style={{ color: 'var(--text-secondary)' }}>Sign up to get started</p>
         </div>
         
-        {error && (
+        {errorPrompt && (
           <div style={{ backgroundColor: 'var(--accent-red, #ffebee)', color: 'var(--accent-red-hover, #c62828)', padding: '0.75rem', borderRadius: '0.5rem', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
-            {error}
+            {errorPrompt}
           </div>
         )}
 
@@ -159,7 +130,7 @@ const Register = () => {
             </div>
           </div>
 
-          {errorPrompt && <div style={{ color: 'var(--error)', fontSize: '0.85rem', textAlign: 'center' }}>{errorPrompt}</div>}
+
           
           <Button type="submit" variant="primary" style={{ width: '100%', marginTop: '1rem', padding: '0.85rem' }} disabled={isLoading}>
             {isLoading ? 'Creating Account...' : 'Register Now'}
