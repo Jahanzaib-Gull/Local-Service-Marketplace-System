@@ -188,6 +188,10 @@ h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
   background-clip: text;
 }
 
+.card:hover .hover-scale {
+  transform: scale(1.1);
+}
+
 /* Button Component */
 .btn {
   display: inline-flex;
