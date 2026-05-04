@@ -55,12 +55,12 @@ const Register = () => {
 
           <form onSubmit={handleRegister} className="space-y-1">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-              <Input label="Full Name" icon={User} placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
-              <Input label="Email" type="email" icon={Mail} placeholder="john@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              <Input label="Password" type="password" icon={Lock} placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              <Input label="Phone" icon={Phone} placeholder="+1 555-0123" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+              <Input id="name" label="Full Name" icon={User} placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
+              <Input id="email" label="Email" type="email" icon={Mail} placeholder="john@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input id="password" label="Password" type="password" icon={Lock} placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <Input id="phone" label="Phone" icon={Phone} placeholder="+1 555-0123" value={phone} onChange={(e) => setPhone(e.target.value)} required />
               <div className="md:col-span-2">
-                <Input label="Location" icon={MapPin} placeholder="New York, USA" value={location} onChange={(e) => setLocation(e.target.value)} required />
+                <Input id="location" label="Location" icon={MapPin} placeholder="New York, USA" value={location} onChange={(e) => setLocation(e.target.value)} required />
               </div>
             </div>
 
