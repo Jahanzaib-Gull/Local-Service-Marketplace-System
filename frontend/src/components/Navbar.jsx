@@ -58,7 +58,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-3">
           <NavLink to="/">Home</NavLink>
           {user ? (
             <>
@@ -71,24 +71,24 @@ const Navbar = () => {
               <NavLink to="/dashboard" icon={LayoutDashboard}>Dashboard</NavLink>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-1.5 ml-2 px-4 py-2 text-sm font-medium text-slate-600 border border-slate-200 rounded-lg hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all duration-200"
+                className="flex items-center gap-2 ml-2 px-4 py-2 text-sm font-medium text-slate-600 border border-slate-200 rounded-lg hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all duration-200"
               >
-                <LogOut size={15} />
+                <LogOut size={16} />
                 Logout
               </button>
             </>
           ) : (
-            <>
+            <div className="flex items-center gap-4 ml-4">
               <NavLink to="/login" icon={LogIn}>Login</NavLink>
               <Link
                 to="/register"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-1.5 ml-2 px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow-md shadow-indigo-500/30 hover:bg-indigo-700 hover:shadow-indigo-500/40 transition-all duration-200"
+                className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-indigo-600 rounded-full shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 hover:shadow-indigo-500/40 transition-all duration-200 active:scale-95"
               >
-                <UserPlus size={15} />
+                <UserPlus size={16} />
                 Register
               </Link>
-            </>
+            </div>
           )}
         </div>
 
