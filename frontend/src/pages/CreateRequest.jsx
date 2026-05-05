@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { UploadCloud, CheckCircle, MapPin, AlignLeft, DollarSign, Calendar, ArrowLeft } from 'lucide-react';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import api from '../api';
 
 const CreateRequest = () => {
   const navigate = useNavigate();
@@ -27,19 +28,12 @@ const CreateRequest = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/requests', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify(formData)
-      });
-      if (res.ok) {
-        setSubmitted(true);
-        setTimeout(() => navigate('/dashboard'), 2500);
-      }
+      await api.post('/requests', formData);
+      setSubmitted(true);
+      setTimeout(() => navigate('/dashboard'), 2500);
     } catch (err) {
       console.error(err);
-      alert('An error occurred.');
+      alert(err.response?.data?.message || 'An error occurred while publishing the request.');
     } finally {
       setIsLoading(false);
     }
