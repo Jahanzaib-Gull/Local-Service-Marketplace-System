@@ -12,6 +12,10 @@ const bookingSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
+    offer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Offer',
+    },
     status: {
       type: String,
       enum: ['accepted', 'completed', 'cancelled'],

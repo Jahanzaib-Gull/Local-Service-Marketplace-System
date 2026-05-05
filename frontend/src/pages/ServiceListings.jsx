@@ -3,6 +3,7 @@ import { Search, Filter, MapPin, Clock, DollarSign, Briefcase } from 'lucide-rea
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api';
+import OfferModal from '../components/OfferModal';
 
 const ServiceListings = () => {
   const { user } = useAuth();
@@ -10,6 +11,7 @@ const ServiceListings = () => {
   const [search, setSearch] = useState('');
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const navigate = useNavigate();
 
   if (!user || user.role !== 'ServiceProvider') {
@@ -31,21 +33,6 @@ const ServiceListings = () => {
     fetchJobs();
   }, []);
 
-  const handleAccept = async (id) => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    try {
-      await api.post('/bookings/accept', { requestId: id });
-      fetchJobs();
-      navigate('/dashboard');
-    } catch (err) {
-      console.error('Failed to accept request', err);
-      alert(err.response?.data?.message || 'Failed to accept the request.');
-    }
-  };
-
   const categories = ['All Categories', 'Plumbing', 'Electrical', 'Cleaning', 'HVAC', 'Appliance', 'Painting'];
 
   const filteredJobs = jobs.filter(job => 
@@ -55,6 +42,14 @@ const ServiceListings = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8 animate-fade-in-up">
+      {selectedRequest && (
+        <OfferModal 
+          request={selectedRequest} 
+          onClose={() => setSelectedRequest(null)} 
+          onOfferSent={fetchJobs} 
+        />
+      )}
+      
       {/* Header */}
       <div className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Available Jobs Near You</h1>
@@ -132,10 +127,10 @@ const ServiceListings = () => {
               
               <div className="border-t border-slate-100 pt-4 mt-auto">
                 <button 
-                  onClick={() => handleAccept(job._id)}
-                  className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-sm hover:bg-indigo-700 hover:shadow-md transition-all duration-200"
+                  onClick={() => setSelectedRequest(job)}
+                  className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-sm hover:bg-indigo-700 hover:shadow-md transition-all duration-200 flex items-center justify-center gap-2"
                 >
-                  Accept Job
+                  <DollarSign size={18} /> Send Your Offer
                 </button>
               </div>
             </div>
