@@ -64,6 +64,7 @@ const Navbar = () => {
             <>
               {user.role === 'ServiceProvider' && <NavLink to="/services" icon={Briefcase}>Browse Jobs</NavLink>}
               {user.role === 'HomeOwner' && <NavLink to="/create-request" icon={PlusCircle}>Post Job</NavLink>}
+              <NavLink to="/profile" icon={UserPlus}>Profile</NavLink>
               <NavLink to="/dashboard" icon={LayoutDashboard}>Dashboard</NavLink>
               
               <div className="w-px h-6 bg-slate-200 mx-2" />
@@ -109,6 +110,7 @@ const Navbar = () => {
             <>
               {user.role === 'ServiceProvider' && <NavLink to="/services" icon={Briefcase}>Browse Jobs</NavLink>}
               {user.role === 'HomeOwner' && <NavLink to="/create-request" icon={PlusCircle}>Post Job</NavLink>}
+              <NavLink to="/profile" icon={UserPlus}>Profile</NavLink>
               <NavLink to="/dashboard" icon={LayoutDashboard}>Dashboard</NavLink>
               <button
                 onClick={handleLogout}

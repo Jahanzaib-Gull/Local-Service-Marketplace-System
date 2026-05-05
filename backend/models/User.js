@@ -27,6 +27,18 @@ const userSchema = mongoose.Schema(
     location: {
       type: String,
     },
+    bio: {
+      type: String,
+      default: '',
+    },
+    skills: {
+      type: [String],
+      default: [],
+    },
+    avatar: {
+      type: String,
+      default: '',
+    },
   },
   {
     timestamps: true,

@@ -32,6 +32,8 @@ const OwnerDashboard = () => {
 
   useEffect(() => {
     fetchMetrics();
+    const interval = setInterval(fetchMetrics, 5000); // Polling every 5 seconds
+    return () => clearInterval(interval);
   }, []);
 
   if (isLoading) {

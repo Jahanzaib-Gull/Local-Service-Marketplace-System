@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import CreateRequest from './pages/CreateRequest';
 import ServiceListings from './pages/ServiceListings';
+import Profile from './pages/Profile';
 import { AuthProvider } from './context/AuthContext';
 import './index.css';
 
@@ -28,6 +29,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/create-request" element={<CreateRequest />} />
               <Route path="/services" element={<ServiceListings />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </main>
         </div>
