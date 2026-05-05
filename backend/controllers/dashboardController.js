@@ -42,9 +42,11 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       .limit(5);
 
     metrics = {
-      availableJobs,
-      activeJobs: activeBookings,
-      completedJobs: completedBookings,
+      stats: {
+        availableJobs,
+        activeJobs: activeBookings,
+        completedJobs: completedBookings,
+      },
       recentJobs, // overall fresh requests
       myRecentJobs // jobs this provider accepted
     };

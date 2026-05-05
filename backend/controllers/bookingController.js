@@ -17,7 +17,14 @@ const acceptRequest = asyncHandler(async (req, res) => {
 
   if (request.status !== 'pending') {
     res.status(400);
-    throw new Error('Request is no longer available');
+    throw new Error(`Request is no longer available (Current status: ${request.status})`);
+  }
+
+  // Check if this provider already accepted this request
+  const existingBooking = await Booking.findOne({ request: requestId, provider: req.user._id });
+  if (existingBooking) {
+    res.status(400);
+    throw new Error('You have already accepted this request');
   }
 
   // Create booking
