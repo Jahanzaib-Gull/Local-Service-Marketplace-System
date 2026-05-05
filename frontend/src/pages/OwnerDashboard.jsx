@@ -1,29 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Wrench, Bell, CheckCircle, MoreHorizontal, PlusCircle, Activity, Layout } from 'lucide-react';
+import { Wrench, Bell, CheckCircle, MoreHorizontal, PlusCircle, Activity, Layout, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import api from '../api';
+import ReviewModal from '../components/ReviewModal';
 
 const OwnerDashboard = () => {
   const { user } = useAuth();
   const [metrics, setMetrics] = useState({
     stats: { totalRequests: 0, activeJobs: 0, completedJobs: 0 },
-    recentRequests: []
+    recentRequests: [],
+    recentBookings: []
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+
+  const fetchMetrics = async () => {
+    try {
+      const { data } = await api.get('/dashboard/metrics');
+      setMetrics(data);
+    } catch (err) {
+      console.error('Failed to fetch metrics', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchMetrics = async () => {
-      try {
-        const { data } = await api.get('/dashboard/metrics');
-        setMetrics(data);
-      } catch (err) {
-        console.error('Failed to fetch metrics', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchMetrics();
   }, []);
 
@@ -38,10 +42,18 @@ const OwnerDashboard = () => {
     );
   }
 
-  const { stats = { totalRequests: 0, activeJobs: 0, completedJobs: 0 }, recentRequests = [] } = metrics || {};
+  const { stats = { totalRequests: 0, activeJobs: 0, completedJobs: 0 }, recentRequests = [], recentBookings = [] } = metrics || {};
 
   return (
     <div className="min-h-screen bg-[#fafbff] pt-32 pb-20 px-6 font-['Plus_Jakarta_Sans',sans-serif]">
+      {selectedBooking && (
+        <ReviewModal 
+          booking={selectedBooking} 
+          onClose={() => setSelectedBooking(null)} 
+          onReviewed={fetchMetrics} 
+        />
+      )}
+      
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -99,10 +111,49 @@ const OwnerDashboard = () => {
           </div>
         </div>
 
+        {/* Bookings Section */}
+        <div className="mb-16">
+          <div className="flex items-center justify-between mb-8 px-2">
+            <h3 className="text-2xl font-black text-slate-900 tracking-tight">Jobs in Progress</h3>
+            <span className="px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-full text-xs font-black uppercase tracking-widest">Ongoing Interactions</span>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {recentBookings.length > 0 ? recentBookings.map(booking => (
+              <div key={booking._id} className="bg-white border border-slate-100 rounded-[3rem] p-10 shadow-xl shadow-slate-100/50 hover:border-indigo-200 transition-all group">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="p-4 bg-slate-50 text-slate-400 rounded-2xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                    <Wrench size={24} />
+                  </div>
+                  <span className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase tracking-widest">Accepted</span>
+                </div>
+                <h4 className="text-xl font-black text-slate-900 mb-2">{booking.request?.title}</h4>
+                <div className="flex items-center gap-2 mb-8">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-black text-slate-400">
+                    {booking.provider?.name?.charAt(0)}
+                  </div>
+                  <span className="text-sm font-bold text-slate-500">Service by <span className="text-slate-900">{booking.provider?.name}</span></span>
+                </div>
+                <Button 
+                  onClick={() => setSelectedBooking(booking)}
+                  className="w-full gap-2 rounded-2xl bg-slate-900 text-white hover:bg-slate-800"
+                >
+                  <Star size={18} /> Rate Service
+                </Button>
+              </div>
+            )) : (
+              <div className="md:col-span-2 py-12 bg-white border border-dashed border-slate-200 rounded-[3rem] flex flex-col items-center justify-center text-slate-400 opacity-60">
+                <Layout size={40} className="mb-4" />
+                <p className="font-bold">No jobs currently in progress</p>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Table Section */}
         <div className="bg-white border border-slate-100 rounded-[3rem] shadow-2xl shadow-slate-100 overflow-hidden">
           <div className="px-10 py-8 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
-            <h3 className="text-xl font-black text-slate-900">Recent Service History</h3>
+            <h3 className="text-xl font-black text-slate-900">Your Recent Requests</h3>
             <button 
               onClick={() => alert('Full transaction history is coming in the next update!')}
               className="text-sm font-black text-indigo-600 hover:text-indigo-700"
@@ -154,7 +205,7 @@ const OwnerDashboard = () => {
                     <td colSpan="5" className="px-10 py-20 text-center">
                       <div className="flex flex-col items-center opacity-30">
                         <Activity size={48} className="mb-4" />
-                        <p className="font-black text-xl">No active history found</p>
+                        <p className="font-black text-xl">No requests found</p>
                       </div>
                     </td>
                   </tr>

@@ -18,11 +18,22 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       .sort('-createdAt')
       .limit(5);
 
+    // Get recent bookings for this user's requests
+    const userRequests = await Request.find({ createdBy: req.user._id }).select('_id');
+    const requestIds = userRequests.map(r => r._id);
+    
+    const recentBookings = await Booking.find({ request: { $in: requestIds } })
+      .populate('request')
+      .populate('provider', 'name email')
+      .sort('-createdAt')
+      .limit(5);
+
     metrics = {
       totalRequests,
       activeJobs: activeRequests,
       completedJobs: completedRequests,
       recentRequests,
+      recentBookings,
     };
   } else if (req.user.role === 'ServiceProvider') {
     // Provider metrics
