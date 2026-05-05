@@ -14,7 +14,7 @@ const ProviderDashboard = () => {
   const fetchMetrics = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/dashboard/metrics', {
+      const res = await fetch('https://local-service-marketplace-system.onrender.com/api/dashboard/metrics', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -34,7 +34,7 @@ const ProviderDashboard = () => {
     if (action === 'accept') {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:5000/api/bookings/accept', {
+        const res = await fetch('https://local-service-marketplace-system.onrender.com/api/bookings/accept', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({ requestId: id })

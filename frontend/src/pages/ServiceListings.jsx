@@ -18,7 +18,7 @@ const ServiceListings = () => {
   const fetchJobs = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/requests', {
+      const res = await fetch('https://local-service-marketplace-system.onrender.com/api/requests', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -45,7 +45,7 @@ const ServiceListings = () => {
     }
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/bookings/accept', {
+      const res = await fetch('https://local-service-marketplace-system.onrender.com/api/bookings/accept', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

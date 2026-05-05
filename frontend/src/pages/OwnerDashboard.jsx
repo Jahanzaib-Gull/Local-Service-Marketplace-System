@@ -16,7 +16,7 @@ const OwnerDashboard = () => {
     const fetchMetrics = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:5000/api/dashboard/metrics', {
+        const res = await fetch('https://local-service-marketplace-system.onrender.com/api/dashboard/metrics', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();

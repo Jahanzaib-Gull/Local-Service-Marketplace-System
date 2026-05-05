@@ -28,7 +28,7 @@ const CreateRequest = () => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/requests', {
+      const res = await fetch('https://local-service-marketplace-system.onrender.com/api/requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(formData)
