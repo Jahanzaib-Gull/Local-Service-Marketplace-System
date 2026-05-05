@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Briefcase, TrendingUp, CheckCircle, XCircle, MapPin, DollarSign, ExternalLink } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
@@ -66,8 +67,16 @@ const ProviderDashboard = () => {
             <h1 className="text-4xl font-black text-slate-900 tracking-tight">Success is calling, {user?.name?.split(' ')[0]}!</h1>
           </div>
           <div className="flex gap-4">
-            <Button variant="secondary" className="px-6 rounded-2xl">History</Button>
-            <Button variant="emerald" className="px-8 rounded-2xl shadow-emerald-200">Find More Jobs</Button>
+            <Button 
+              variant="secondary" 
+              className="px-6 rounded-2xl"
+              onClick={() => alert('Your work history is being synchronized!')}
+            >
+              History
+            </Button>
+            <Link to="/services">
+              <Button variant="emerald" className="px-8 rounded-2xl shadow-emerald-200">Find More Jobs</Button>
+            </Link>
           </div>
         </div>
 

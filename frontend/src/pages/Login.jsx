@@ -90,7 +90,13 @@ const Login = () => {
                 <input type="checkbox" className="w-5 h-5 rounded-lg border-slate-200 text-indigo-600 focus:ring-indigo-500" />
                 <span className="text-sm font-bold text-slate-600">Remember me</span>
               </label>
-              <a href="#" className="text-sm font-bold text-indigo-600 hover:text-indigo-700">Forgot password?</a>
+              <button 
+                type="button"
+                onClick={() => alert('Password reset functionality is coming soon!')}
+                className="text-sm font-bold text-indigo-600 hover:text-indigo-700"
+              >
+                Forgot password?
+              </button>
             </div>
 
             <Button 

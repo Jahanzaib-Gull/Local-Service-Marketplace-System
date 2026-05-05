@@ -95,13 +95,28 @@ const CreateRequest = () => {
             {/* Upload Area */}
             <div className="mb-10 pt-4">
               <label className="block text-sm font-black text-slate-700 mb-3 ml-1 uppercase tracking-widest">Visual Reference (Optional)</label>
-              <div className="border-3 border-dashed border-slate-100 rounded-[2rem] p-12 text-center cursor-pointer bg-slate-50/50 transition-all duration-300 hover:border-indigo-400 hover:bg-indigo-50/30 group">
+              <input 
+                type="file" 
+                id="file-upload" 
+                className="hidden" 
+                multiple 
+                onChange={(e) => {
+                  const files = Array.from(e.target.files);
+                  if (files.length > 0) {
+                    alert(`${files.length} file(s) selected: ${files.map(f => f.name).join(', ')}`);
+                  }
+                }} 
+              />
+              <label 
+                htmlFor="file-upload"
+                className="block border-3 border-dashed border-slate-100 rounded-[2rem] p-12 text-center cursor-pointer bg-slate-50/50 transition-all duration-300 hover:border-indigo-400 hover:bg-indigo-50/30 group"
+              >
                 <div className="inline-flex p-5 bg-white rounded-2xl shadow-sm text-slate-400 group-hover:text-indigo-600 group-hover:scale-110 transition-all mb-4">
                   <UploadCloud size={32} />
                 </div>
                 <p className="font-black text-slate-900 mb-1">Click to upload photos</p>
                 <p className="text-sm font-bold text-slate-400">Add up to 5 photos for better accuracy</p>
-              </div>
+              </label>
             </div>
 
             <div className="pt-8">

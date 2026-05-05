@@ -51,12 +51,21 @@ const OwnerDashboard = () => {
             </div>
             <h1 className="text-4xl font-black text-slate-900 tracking-tight">Welcome back, {user?.name?.split(' ')[0]}!</h1>
           </div>
-          <Link to="/create-request">
-            <Button className="py-4 px-8 rounded-2xl group">
-              <PlusCircle size={20} className="group-hover:rotate-90 transition-transform duration-300" /> 
-              Post New Request
+          <div className="flex gap-4">
+            <Button 
+              variant="secondary" 
+              className="px-6 rounded-2xl"
+              onClick={() => alert('Job history is currently being compiled!')}
+            >
+              History
             </Button>
-          </Link>
+            <Link to="/create-request">
+              <Button className="py-4 px-8 rounded-2xl group">
+                <PlusCircle size={20} className="group-hover:rotate-90 transition-transform duration-300" /> 
+                Post New Request
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Stats Grid */}
@@ -94,7 +103,12 @@ const OwnerDashboard = () => {
         <div className="bg-white border border-slate-100 rounded-[3rem] shadow-2xl shadow-slate-100 overflow-hidden">
           <div className="px-10 py-8 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
             <h3 className="text-xl font-black text-slate-900">Recent Service History</h3>
-            <button className="text-sm font-black text-indigo-600 hover:text-indigo-700">View All Records</button>
+            <button 
+              onClick={() => alert('Full transaction history is coming in the next update!')}
+              className="text-sm font-black text-indigo-600 hover:text-indigo-700"
+            >
+              View All Records
+            </button>
           </div>
           
           <div className="overflow-x-auto">
