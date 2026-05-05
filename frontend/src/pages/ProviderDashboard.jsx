@@ -31,23 +31,6 @@ const ProviderDashboard = () => {
     fetchMetrics();
   }, []);
 
-  const handleAction = async (id, action) => {
-    if (action === 'accept') {
-      try {
-        await api.post('/bookings/accept', { requestId: id });
-        fetchMetrics();
-      } catch (err) {
-        console.error('Failed to accept request', err);
-        alert(err.response?.data?.message || 'Failed to accept job.');
-      }
-    } else {
-      setMetrics(prev => ({
-        ...prev,
-        recentJobs: prev.recentJobs.filter(req => req._id !== id)
-      }));
-    }
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fafbff]">
@@ -169,26 +152,30 @@ const ProviderDashboard = () => {
               <div key={job._id} className="p-10 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-slate-50/50 transition-colors">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                  <Button 
-                    variant="emerald" 
-                    className="rounded-2xl px-10 py-4"
-                    onClick={() => handleAction(req._id, 'accept')}
-                  >
-                    Accept Job
-                  </Button>
-                  <Button 
-                    variant="secondary" 
-                    className="p-4 rounded-2xl"
-                    onClick={() => handleAction(req._id, 'reject')}
-                  >
-                    <XCircle size={22} className="text-slate-400" />
-                  </Button>
+                    <span className="px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase tracking-widest">
+                      {job.category}
+                    </span>
+                    <div className="flex items-center gap-1.5 text-slate-400">
+                      <MapPin size={14} />
+                      <span className="text-xs font-bold uppercase tracking-wider">{job.location}</span>
+                    </div>
+                  </div>
+                  <h4 className="text-2xl font-black text-slate-900 mb-2">{job.title}</h4>
+                  <p className="text-slate-500 font-medium max-w-2xl line-clamp-1">{job.description}</p>
+                </div>
+                <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4">
+                  <div className="text-3xl font-black text-emerald-500">${job.budget}</div>
+                  <Link to="/services">
+                    <Button variant="emerald" className="rounded-xl px-8 shadow-sm">Send Offer</Button>
+                  </Link>
                 </div>
               </div>
             )) : (
               <div className="p-20 text-center text-slate-400">
-                <p className="font-black text-xl mb-2">No new requests in your area</p>
-                <p className="font-medium">Check back soon for new opportunities.</p>
+                <div className="flex flex-col items-center opacity-30">
+                  <TrendingUp size={48} className="mb-4" />
+                  <p className="font-black text-xl">No new jobs right now</p>
+                </div>
               </div>
             )}
           </div>
