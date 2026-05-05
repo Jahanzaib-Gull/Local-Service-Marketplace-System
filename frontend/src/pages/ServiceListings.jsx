@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Clock, DollarSign, Briefcase } from 'lucide-react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import api from '../api';
 
 const ServiceListings = () => {
   const { user } = useAuth();
@@ -17,16 +18,8 @@ const ServiceListings = () => {
 
   const fetchJobs = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch('https://local-service-marketplace-system.onrender.com/api/requests', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setJobs(data);
-      }
+      const { data } = await api.get('/requests');
+      setJobs(data);
     } catch (err) {
       console.error('Failed to fetch jobs', err);
     } finally {
@@ -44,25 +37,12 @@ const ServiceListings = () => {
       return;
     }
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch('https://local-service-marketplace-system.onrender.com/api/bookings/accept', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ requestId: id })
-      });
-      
-      if (res.ok) {
-        fetchJobs();
-        navigate('/dashboard');
-      } else {
-        const data = await res.json();
-        alert(data.message || 'Failed to accept the request.');
-      }
+      await api.post('/bookings/accept', { requestId: id });
+      fetchJobs();
+      navigate('/dashboard');
     } catch (err) {
       console.error('Failed to accept request', err);
+      alert(err.response?.data?.message || 'Failed to accept the request.');
     }
   };
 

@@ -3,6 +3,7 @@ import { Wrench, Bell, CheckCircle, MoreHorizontal, PlusCircle, Activity, Layout
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
+import api from '../api';
 
 const OwnerDashboard = () => {
   const { user } = useAuth();
@@ -15,12 +16,8 @@ const OwnerDashboard = () => {
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const res = await fetch('https://local-service-marketplace-system.onrender.com/api/dashboard/metrics', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (res.ok) setMetrics(data);
+        const { data } = await api.get('/dashboard/metrics');
+        setMetrics(data);
       } catch (err) {
         console.error('Failed to fetch metrics', err);
       } finally {

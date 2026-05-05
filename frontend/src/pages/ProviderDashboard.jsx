@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Briefcase, TrendingUp, CheckCircle, XCircle, MapPin, DollarSign, ExternalLink } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
+import api from '../api';
 
 const ProviderDashboard = () => {
   const { user } = useAuth();
@@ -13,12 +14,8 @@ const ProviderDashboard = () => {
 
   const fetchMetrics = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch('https://local-service-marketplace-system.onrender.com/api/dashboard/metrics', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await res.json();
-      if (res.ok) setMetrics(data);
+      const { data } = await api.get('/dashboard/metrics');
+      setMetrics(data);
     } catch (err) {
       console.error('Failed to fetch metrics', err);
     } finally {
@@ -33,15 +30,11 @@ const ProviderDashboard = () => {
   const handleAction = async (id, action) => {
     if (action === 'accept') {
       try {
-        const token = localStorage.getItem('token');
-        const res = await fetch('https://local-service-marketplace-system.onrender.com/api/bookings/accept', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ requestId: id })
-        });
-        if (res.ok) fetchMetrics();
+        await api.post('/bookings/accept', { requestId: id });
+        fetchMetrics();
       } catch (err) {
         console.error('Failed to accept request', err);
+        alert(err.response?.data?.message || 'Failed to accept job.');
       }
     } else {
       setMetrics(prev => ({

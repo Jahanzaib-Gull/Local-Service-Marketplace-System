@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://local-service-marketplace-system.onrender.com/api',
+  // Use local backend in development, otherwise use the production URL
+  baseURL: window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000/api' 
+    : 'https://local-service-marketplace-system.onrender.com/api',
 });
 
 api.interceptors.request.use(
