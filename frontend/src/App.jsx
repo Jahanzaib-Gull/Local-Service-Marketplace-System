@@ -11,12 +11,14 @@ import CreateRequest from './pages/CreateRequest';
 import ServiceListings from './pages/ServiceListings';
 import Profile from './pages/Profile';
 import { AuthProvider } from './context/AuthContext';
+import { SocketProvider } from './context/SocketContext';
 import './index.css';
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <SocketProvider>
+        <Router>
         <div className="min-h-screen bg-slate-50 font-['Inter',sans-serif] antialiased">
           <Navbar />
           <main>
@@ -34,6 +36,7 @@ function App() {
           </main>
         </div>
       </Router>
+      </SocketProvider>
     </AuthProvider>
   );
 }

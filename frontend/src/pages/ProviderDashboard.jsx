@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import api from '../api';
 import ChatModal from '../components/ChatModal';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 const ProviderDashboard = () => {
   const { user } = useAuth();
@@ -117,20 +118,29 @@ const ProviderDashboard = () => {
             {myRecentJobs.length > 0 ? myRecentJobs.map(booking => (
               <div key={booking._id} className="bg-white border border-slate-100 rounded-[3rem] p-10 shadow-xl shadow-slate-100/50 hover:border-indigo-200 transition-all group">
                 <div className="flex items-center justify-between mb-6">
-                  <div className="p-4 bg-indigo-600 text-white rounded-2xl">
+                  <div className="p-4 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-100">
                     <MessageSquare size={24} />
                   </div>
                   <button 
                     onClick={() => setChatBooking(booking)}
-                    className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all"
+                    className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
                   >
-                    Chat with Owner
+                    Live Chat
                   </button>
                 </div>
+                
                 <h4 className="text-xl font-black text-slate-900 mb-2">{booking.request?.title}</h4>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mb-6">
                   <MapPin size={14} className="text-slate-400" />
                   <span className="text-sm font-bold text-slate-500">{booking.request?.location}</span>
+                </div>
+
+                {/* Tracking Map */}
+                <div className="h-32 rounded-2xl overflow-hidden mb-2 border border-slate-100 shadow-inner relative z-0">
+                  <MapContainer center={[31.5204, 74.3587]} zoom={13} style={{ height: '100%', width: '100%' }} zoomControl={false}>
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    <Marker position={[31.5204, 74.3587]} />
+                  </MapContainer>
                 </div>
               </div>
             )) : (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Wrench, Menu, X, LayoutDashboard, PlusCircle, Briefcase, LogOut, LogIn, UserPlus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import NotificationDropdown from './NotificationDropdown';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -68,6 +69,7 @@ const Navbar = () => {
               <NavLink to="/dashboard" icon={LayoutDashboard}>Dashboard</NavLink>
               
               <div className="w-px h-6 bg-slate-200 mx-2" />
+              <NotificationDropdown />
               
               <button
                 onClick={handleLogout}
@@ -105,6 +107,10 @@ const Navbar = () => {
         menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
       }`}>
         <div className="bg-white/90 backdrop-blur-2xl rounded-[2.5rem] p-8 shadow-2xl border border-white/50 space-y-3">
+          <div className="flex items-center justify-between px-4 pb-4">
+            <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Navigation</h4>
+            <NotificationDropdown />
+          </div>
           <NavLink to="/">Home</NavLink>
           {user ? (
             <>

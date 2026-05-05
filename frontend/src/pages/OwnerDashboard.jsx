@@ -7,6 +7,7 @@ import api from '../api';
 import ReviewModal from '../components/ReviewModal';
 import OffersList from '../components/OffersList';
 import ChatModal from '../components/ChatModal';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 const OwnerDashboard = () => {
   const { user } = useAuth();
@@ -128,23 +129,35 @@ const OwnerDashboard = () => {
             {recentBookings.length > 0 ? recentBookings.map(booking => (
               <div key={booking._id} className="bg-white border border-slate-100 rounded-[3rem] p-10 shadow-xl shadow-slate-100/50 hover:border-indigo-200 transition-all group">
                 <div className="flex items-center justify-between mb-6">
-                  <div className="p-4 bg-indigo-600 text-white rounded-2xl">
+                  <div className="p-4 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-100">
                     <MessageSquare size={24} />
                   </div>
                   <div className="flex gap-2">
                     <button 
                       onClick={() => setChatBooking(booking)}
-                      className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all"
+                      className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
                     >
-                      Open Chat
+                      Live Chat
                     </button>
                   </div>
                 </div>
+                
                 <h4 className="text-xl font-black text-slate-900 mb-2">{booking.request?.title}</h4>
-                <p className="text-sm font-bold text-slate-500 mb-8">Provider: <span className="text-slate-900">{booking.provider?.name}</span></p>
+                <p className="text-sm font-bold text-slate-500 mb-6">Pro: <span className="text-slate-900">{booking.provider?.name}</span></p>
+
+                {/* Mini Tracking Map */}
+                <div className="h-40 rounded-[2rem] overflow-hidden mb-8 border border-slate-100 shadow-inner relative z-0">
+                  <MapContainer center={[31.5204, 74.3587]} zoom={13} style={{ height: '100%', width: '100%' }} zoomControl={false}>
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    <Marker position={[31.5204, 74.3587]}>
+                      <Popup>Service Location</Popup>
+                    </Marker>
+                  </MapContainer>
+                </div>
+
                 <Button 
                   onClick={() => setSelectedBooking(booking)}
-                  className="w-full gap-2 rounded-2xl bg-slate-900 text-white hover:bg-slate-800"
+                  className="w-full gap-2 rounded-2xl bg-slate-900 text-white hover:bg-slate-800 shadow-xl shadow-slate-200"
                 >
                   <Star size={18} /> Finish & Rate Service
                 </Button>

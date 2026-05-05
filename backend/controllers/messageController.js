@@ -27,6 +27,19 @@ const sendMessage = asyncHandler(async (req, res) => {
     content,
   });
 
+  // Notify recipient
+  if (global.io) {
+    const recipientId = booking.provider.toString() === req.user._id.toString() 
+      ? request.createdBy.toString() 
+      : booking.provider.toString();
+      
+    global.io.to(recipientId).emit('new_message', {
+      bookingId,
+      message: `New message from ${req.user.name}`,
+      content
+    });
+  }
+
   res.status(201).json(message);
 });
 

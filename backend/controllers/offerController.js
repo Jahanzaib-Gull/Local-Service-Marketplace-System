@@ -33,6 +33,15 @@ const createOffer = asyncHandler(async (req, res) => {
     message,
   });
 
+  // Notify owner
+  if (global.io) {
+    global.io.to(request.createdBy.toString()).emit('new_offer', {
+      requestId: request._id,
+      offerId: offer._id,
+      message: `New offer of $${price} received for ${request.title}`,
+    });
+  }
+
   res.status(201).json(offer);
 });
 
@@ -86,6 +95,14 @@ const acceptOffer = asyncHandler(async (req, res) => {
     offer: offer._id,
     status: 'accepted',
   });
+
+  // Notify provider
+  if (global.io) {
+    global.io.to(offer.provider.toString()).emit('offer_accepted', {
+      bookingId: booking._id,
+      message: `Your offer for ${request.title} was accepted!`,
+    });
+  }
 
   res.json({ message: 'Offer accepted', booking });
 });
