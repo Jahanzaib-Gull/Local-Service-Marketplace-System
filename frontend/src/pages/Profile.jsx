@@ -3,6 +3,7 @@ import { User, Phone, MapPin, Mail, Briefcase, FileText, Camera, Save, Star } fr
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import api from '../api';
+import MapPicker from '../components/MapPicker';
 
 const Profile = () => {
   const { user, login } = useAuth();
@@ -131,17 +132,11 @@ const Profile = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-black text-slate-700 mb-3 ml-1 uppercase tracking-widest">Location</label>
-                <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                  <input
-                    name="location"
-                    type="text"
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-bold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"
-                    value={formData.location}
-                    onChange={handleChange}
-                  />
-                </div>
+                <label className="block text-sm font-black text-slate-700 mb-3 ml-1 uppercase tracking-widest">Your Location (Select on Map)</label>
+                <MapPicker 
+                  initialAddress={formData.location} 
+                  onLocationSelect={(addr) => setFormData(prev => ({ ...prev, location: addr }))} 
+                />
               </div>
 
               <div>

@@ -5,6 +5,7 @@ import { UploadCloud, CheckCircle, MapPin, AlignLeft, DollarSign, Calendar, Arro
 import Input from '../components/Input';
 import Button from '../components/Button';
 import api from '../api';
+import MapPicker from '../components/MapPicker';
 
 const CreateRequest = () => {
   const navigate = useNavigate();
@@ -87,9 +88,16 @@ const CreateRequest = () => {
 
             <Input id="description" label="Detailed Description" type="textarea" icon={AlignLeft} rows="4" placeholder="Mention tools needed, specific issues, or special requirements..." value={formData.description} onChange={handleChange} required />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
-              <Input id="location" label="Location" icon={MapPin} placeholder="Enter your address" value={formData.location} onChange={handleChange} required />
-              <Input id="budget" label="Est. Budget ($)" type="number" icon={DollarSign} placeholder="150" value={formData.budget} onChange={handleChange} required />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 mb-8">
+              <div className="md:col-span-1">
+                <label className="block text-sm font-black text-slate-700 mb-3 ml-1 uppercase tracking-widest">Job Location (Select on Map)</label>
+                <MapPicker 
+                  onLocationSelect={(addr) => setFormData(prev => ({ ...prev, location: addr }))} 
+                />
+              </div>
+              <div className="md:col-span-1">
+                <Input id="budget" label="Est. Budget ($)" type="number" icon={DollarSign} placeholder="150" value={formData.budget} onChange={handleChange} required />
+              </div>
             </div>
 
             {/* Upload Area */}
