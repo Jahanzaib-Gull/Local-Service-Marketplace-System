@@ -3,7 +3,6 @@
 [![React](https://img.shields.io/badge/Frontend-React%2018-blue.svg)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Backend-Node.js%2018-green.svg)](https://nodejs.org/)
 [![Socket.io](https://img.shields.io/badge/Real--time-Socket.io-black.svg)](https://socket.io/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 LSMS is a high-end, real-time marketplace that connects homeowners with skilled local professionals. Built with an **InDrive-style bidding system**, it prioritizes transparency, negotiation, and trust through live communication and visual location tracking.
 
@@ -120,11 +119,6 @@ npm run dev
 3. Commit changes (`git commit -m 'Add NewFeature'`).
 4. Push to branch (`git push origin feature/NewFeature`).
 5. Open a Pull Request.
-
----
-
-## 📜 License
-Licensed under the **MIT License**.
 
 ---
 
