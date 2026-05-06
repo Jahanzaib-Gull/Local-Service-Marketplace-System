@@ -1,106 +1,134 @@
 # Local Service Marketplace System (LSMS)
 
-## Table of Contents
-- [Project Introduction](#project-introduction)
-- [Features](#features)
-- [System Architecture](#system-architecture)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Installation and Setup](#installation-and-setup)
-- [Usage](#usage)
-- [Contribution Guidelines](#contribution-guidelines)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
+[![React](https://img.shields.io/badge/Frontend-React%2018-blue.svg)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js%2018-green.svg)](https://nodejs.org/)
+[![Socket.io](https://img.shields.io/badge/Real--time-Socket.io-black.svg)](https://socket.io/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Project Introduction
-The Local Service Marketplace System (LSMS) is a comprehensive platform designed to bridge the gap between house owners and local service professionals. Finding reliable local services such as plumbers, electricians, cleaners, and AC repair technicians can often be a tedious and uncertain process for homeowners. Conversely, skilled service professionals need a reliable way to find consistent work and connect with clients in their area. 
+LSMS is a high-end, real-time marketplace that connects homeowners with skilled local professionals. Built with an **InDrive-style bidding system**, it prioritizes transparency, negotiation, and trust through live communication and visual location tracking.
 
-LSMS solves this problem by providing a centralized, secure, and user-friendly marketplace where homeowners can easily post their service needs, and qualified professionals can browse, accept, and fulfill these requests. By digitizing this interaction, LSMS ensures efficiency, transparency, and trust in local service engagements.
+---
 
-## Features
-- **User Registration and Login:** Secure authentication for all platform users.
-- **Role-based Access Control:** Distinct interfaces and capabilities for "House Owner" and "Service Provider" roles.
-- **Service Request Posting:** Homeowners can create detailed listings for jobs they need completed.
-- **Service Request Browsing:** Service providers can view available jobs in their area or matching their skill set.
-- **Job Acceptance:** Providers can seamlessly accept service requests they wish to fulfill.
-- **Booking Confirmation:** Streamlined process to finalize agreements between owners and providers.
-- **User Profile Management:** Users can manage their personal information, skills, and service history.
+## 🚀 Key Features
 
-## System Architecture
-The LSMS project is built on a robust and scalable 3-tier architecture to ensure separation of concerns and maintainability:
-- **Presentation Layer (Frontend UI):** The user-facing interface, responsible for delivering an intuitive and responsive experience across devices.
-- **Application Layer (Backend API and Business Logic):** The core engine that processes user requests, handles authentication, enforces business rules, and moderates the workflow between homeowners and service providers.
-- **Data Layer (Database):** The persistent storage system that securely manages user profiles, service requests, booking histories, and system configurations.
+### 1. InDrive-Style Bidding System
+*   **Negotiable Pricing**: Instead of fixed rates, providers send custom price offers for any job request.
+*   **Offer Comparison**: Homeowners can view multiple bids simultaneously, comparing prices, messages, and provider profiles before hiring.
+*   **Smart Acceptance**: Accepting an offer automatically converts the request into an active booking and notifies all parties.
 
-## Tech Stack
-The project leverages a modern technology stack to deliver high performance and reliability:
-- **Frontend:** React / HTML / CSS
-- **Backend:** Node.js / Express
-- **Database:** MongoDB / MySQL *(Depending on specific module requirements)*
-- **UI Design and Prototyping:** Figma
+### 2. Real-Time Communication & Notifications
+*   **Live Chat**: Post-acceptance instant messaging powered by **Socket.io** for coordination and updates.
+*   **Instant Notifications**: Real-time alerts for new offers, accepted bids, and incoming messages (both in-app and browser-level).
+*   **Live Dashboards**: Metrics and job lists refresh automatically without page reloads.
 
-## Project Structure
-The repository is organized into distinct directories to keep the codebase clean and modular:
+### 3. Visual Location & Job Tracking
+*   **Interactive Map Selection**: Integrated **Leaflet/OpenStreetMap** for pinning exact service locations.
+*   **Reverse Geocoding**: Automatically translates map clicks into readable street addresses.
+*   **Live Tracking Map**: Active jobs feature a mini-map on the dashboard for real-time location reference.
+
+### 4. Professional Identity & Trust
+*   **Extended Profiles**: Users can manage detailed bios, list professional skills, and set profile pictures.
+*   **Rating & Reviews**: Comprehensive feedback system to ensure high service standards.
+*   **Role-Based Access**: Specialized dashboards for HomeOwners and ServiceProviders.
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | React 18, Vite, TailwindCSS, Lucide Icons, Leaflet (Maps) |
+| **Backend** | Node.js, Express, Socket.io (WebSockets) |
+| **Database** | MongoDB Atlas (Mongoose ODM) |
+| **State Management** | React Context API (Auth & Socket) |
+| **Authentication** | JWT (JSON Web Tokens) with HttpOnly Cookies |
+
+---
+
+## 📂 Project Structure
 
 ```text
-├── frontend/             # React application source code and assets
-├── backend/              # Node.js/Express server and API routes
-├── database/             # Schema definitions, migrations, and seed data
-└── docs/                 # Project documentation, API specs, and design files
+├── frontend/             # React application (Vite build system)
+│   ├── src/components/   # Reusable UI (Chat, Map, Modals, Navbar)
+│   ├── src/context/      # Global state (Auth, Socket connections)
+│   └── src/pages/        # Dashboard, Marketplace, Profiles, Login/Register
+├── backend/              # Express server & API
+│   ├── controllers/      # Business logic (Bookings, Offers, Messages)
+│   ├── models/           # MongoDB Schemas (User, Offer, Message, Review)
+│   └── routes/           # API Endpoints
+└── README.md             # Documentation
 ```
 
-## Installation and Setup
-Follow these steps to get the project running on your local machine for development and testing:
+---
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Jahanzaib-Gull/Local-Service-Marketplace-System.git
-   cd Local-Service-Marketplace-System
-   ```
+## ⚙️ Installation and Setup
 
-2. **Install dependencies:**
-   Navigate to both the frontend and backend directories and install the required npm packages.
-   ```bash
-   # Terminal 1: Backend
-   cd backend
-   npm install
+### 1. Prerequisites
+*   Node.js (v18+)
+*   MongoDB Atlas Account
+*   NPM or Yarn
 
-   # Terminal 2: Frontend
-   cd frontend
-   npm install
-   ```
+### 2. Clone and Install
+```bash
+git clone https://github.com/Jahanzaib-Gull/Local-Service-Marketplace-System.git
+cd Local-Service-Marketplace-System
 
-3. **Configure environment variables:**
-   Create a `.env` file in the `backend` directory and configure the necessary variables (e.g., database connection strings, API keys, JWT secrets). Refer to `.env.example` if available.
+# Install Backend Dependencies
+cd backend
+npm install
 
-4. **Start the backend server:**
-   ```bash
-   cd backend
-   npm run dev
-   ```
+# Install Frontend Dependencies
+cd ../frontend
+npm install
+```
 
-5. **Start the frontend application:**
-   ```bash
-   cd frontend
-   npm start
-   ```
+### 3. Environment Configuration
+Create a `.env` file in the `backend` folder:
+```env
+PORT=5000
+MONGO_URI=your_mongodb_atlas_uri
+JWT_SECRET=your_jwt_secret
+NODE_ENV=development
+```
 
-## Usage
-1. **House Owners:** Register for an account, log in, and navigate to the dashboard to post a new service request detailing the issue, location, and preferred time.
-2. **Service Providers:** Register an account specifying your expertise (e.g., Plumber). Browse the available jobs feed to find requests matching your skills and geographic area. Click "Accept Job" to initiate the booking process.
-3. Both parties will be updated via the dashboard upon booking confirmation to proceed with the service execution.
+### 4. Run Locally
+```bash
+# Terminal 1: Backend
+cd backend
+npm run dev
 
-## Contribution Guidelines
-We welcome contributions to LSMS! To contribute:
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes with clear, descriptive messages (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request detailing your changes.
+# Terminal 2: Frontend
+cd frontend
+npm run dev
+```
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+---
 
-## Acknowledgments
-- Developed as part of the Software Engineering course curriculum.
-- Special thanks to IDEAL Labs for their continuous support and resources throughout the development of this project.
+## 🎯 Usage Workflow
+
+1.  **Homeowner**: Posts a job request pinning the location on the **Map**.
+2.  **Provider**: Browses the **Marketplace** and sends a custom **Offer** (Price + Message).
+3.  **Homeowner**: Reviews incoming bids on the **Dashboard** and clicks **Accept**.
+4.  **Both Parties**: An **Instant Chat** opens. They coordinate live via the **Tracking Map**.
+5.  **Completion**: Homeowner marks the job as finished and leaves a **Review**.
+
+---
+
+## 🤝 Contribution
+1. Fork the repo.
+2. Create your feature branch (`git checkout -b feature/NewFeature`).
+3. Commit changes (`git commit -m 'Add NewFeature'`).
+4. Push to branch (`git push origin feature/NewFeature`).
+5. Open a Pull Request.
+
+---
+
+## 📜 License
+Licensed under the **MIT License**.
+
+---
+
+## 🌟 Acknowledgments
+*   Developed as part of the Software Engineering curriculum.
+*   Special thanks to **IDEAL Labs** for their support.
+*   Maps powered by **OpenStreetMap** and **Leaflet**.
