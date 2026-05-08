@@ -49,7 +49,7 @@ const Navbar = () => {
       }`}>
         
         {/* Brand */}
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-3 group">
           <div className="p-2.5 bg-gradient-to-tr from-indigo-600 to-violet-500 text-white rounded-2xl shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform duration-500">
             <Wrench size={22} strokeWidth={2.5} />
           </div>
@@ -60,7 +60,7 @@ const Navbar = () => {
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-2">
-          <NavLink to="/">Home</NavLink>
+          <NavLink to={user ? "/dashboard" : "/"}>Home</NavLink>
           {user ? (
             <>
               {user.role === 'ServiceProvider' && <NavLink to="/services" icon={Briefcase}>Browse Jobs</NavLink>}
@@ -111,7 +111,7 @@ const Navbar = () => {
             <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Navigation</h4>
             <NotificationDropdown />
           </div>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to={user ? "/dashboard" : "/"}>Home</NavLink>
           {user ? (
             <>
               {user.role === 'ServiceProvider' && <NavLink to="/services" icon={Briefcase}>Browse Jobs</NavLink>}

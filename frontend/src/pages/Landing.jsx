@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home as HomeIcon, Wrench, ShieldCheck, Zap, Star, ArrowRight } from 'lucide-react';
 import Button from '../components/Button';
+import { useAuth } from '../context/AuthContext';
 
 const Landing = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, navigate]);
 
   return (
     <div className="relative min-h-screen bg-[#fafbff] overflow-hidden">

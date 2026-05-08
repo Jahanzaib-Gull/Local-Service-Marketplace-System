@@ -4,14 +4,18 @@ import api from '../api';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const userInfo = localStorage.getItem('userInfo');
+    return userInfo ? JSON.parse(userInfo) : null;
+  });
 
   useEffect(() => {
+    // Maintenance effect to ensure sync if needed
     const userInfo = localStorage.getItem('userInfo');
-    if (userInfo) {
+    if (userInfo && !user) {
       setUser(JSON.parse(userInfo));
     }
-  }, []);
+  }, [user]);
 
   const login = async (email, password) => {
     try {
