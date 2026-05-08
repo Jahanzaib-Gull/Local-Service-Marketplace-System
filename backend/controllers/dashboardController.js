@@ -29,9 +29,11 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       .limit(5);
 
     metrics = {
-      totalRequests,
-      activeJobs: activeRequests,
-      completedJobs: completedRequests,
+      stats: {
+        totalRequests,
+        activeJobs: activeRequests,
+        completedJobs: completedRequests,
+      },
       recentRequests,
       recentBookings,
     };
@@ -49,6 +51,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
     // Bookings representing recent active jobs for provider
     const myRecentJobs = await Booking.find({ provider: req.user._id })
       .populate('request')
+      .populate('offer')
       .sort('-acceptedAt')
       .limit(5);
 
