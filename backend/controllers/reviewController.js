@@ -33,6 +33,18 @@ const createReview = asyncHandler(async (req, res) => {
     comment,
   });
 
+  // Mark booking and request as completed
+  booking.status = 'completed';
+  await booking.save();
+
+  if (booking.request) {
+    const request = await Request.findById(booking.request._id);
+    if (request) {
+      request.status = 'completed';
+      await request.save();
+    }
+  }
+
   res.status(201).json(review);
 });
 
