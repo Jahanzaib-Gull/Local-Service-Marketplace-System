@@ -115,7 +115,7 @@ const ProviderDashboard = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {myRecentJobs.length > 0 ? myRecentJobs.map(booking => (
+            {myRecentJobs.filter(b => b.status === 'accepted').length > 0 ? myRecentJobs.filter(b => b.status === 'accepted').map(booking => (
               <div key={booking._id} className="bg-white border border-slate-100 rounded-[3rem] p-10 shadow-xl shadow-slate-100/50 hover:border-indigo-200 transition-all group">
                 <div className="flex items-center justify-between mb-6">
                   <div className="p-4 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-100">
@@ -151,6 +151,32 @@ const ProviderDashboard = () => {
             )}
           </div>
         </div>
+
+        {/* Completed Work History */}
+        {myRecentJobs.filter(b => b.status === 'completed').length > 0 && (
+          <div className="mb-16">
+            <div className="flex items-center justify-between mb-8 px-2">
+              <h3 className="text-2xl font-black text-slate-900 tracking-tight">Completed History</h3>
+              <span className="px-4 py-1.5 bg-sky-50 text-sky-600 rounded-full text-[10px] font-black uppercase tracking-widest">Earnings Log</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {myRecentJobs.filter(b => b.status === 'completed').map(booking => (
+                <div key={booking._id} className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex items-center justify-between">
+                  <div>
+                    <h5 className="font-black text-slate-900">{booking.request?.title}</h5>
+                    <div className="flex items-center gap-1 text-emerald-500 font-bold text-xs">
+                      <DollarSign size={10} />
+                      <span>{booking.offer?.price || 'Negotiated'}</span>
+                    </div>
+                  </div>
+                  <div className="w-10 h-10 bg-sky-50 text-sky-500 rounded-full flex items-center justify-center">
+                    <CheckCircle size={20} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Recommended Jobs */}
         <div className="bg-white border border-slate-100 rounded-[3rem] shadow-2xl shadow-slate-100 overflow-hidden">
