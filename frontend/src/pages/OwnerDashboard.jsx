@@ -126,7 +126,7 @@ const OwnerDashboard = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {recentBookings.length > 0 ? recentBookings.map(booking => (
+            {recentBookings.filter(b => b.status === 'accepted').length > 0 ? recentBookings.filter(b => b.status === 'accepted').map(booking => (
               <div key={booking._id} className="bg-white border border-slate-100 rounded-[3rem] p-10 shadow-xl shadow-slate-100/50 hover:border-indigo-200 transition-all group">
                 <div className="flex items-center justify-between mb-6">
                   <div className="p-4 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-100">
@@ -170,6 +170,29 @@ const OwnerDashboard = () => {
             )}
           </div>
         </div>
+
+        {/* Completed Jobs History */}
+        {recentBookings.filter(b => b.status === 'completed').length > 0 && (
+          <div className="mb-16">
+            <div className="flex items-center justify-between mb-8 px-2">
+              <h3 className="text-2xl font-black text-slate-900 tracking-tight">Completed History</h3>
+              <span className="px-4 py-1.5 bg-slate-100 text-slate-500 rounded-full text-[10px] font-black uppercase tracking-widest">Archive</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {recentBookings.filter(b => b.status === 'completed').map(booking => (
+                <div key={booking._id} className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex items-center justify-between">
+                  <div>
+                    <h5 className="font-black text-slate-900">{booking.request?.title}</h5>
+                    <p className="text-xs font-bold text-slate-400">Pro: {booking.provider?.name}</p>
+                  </div>
+                  <div className="w-10 h-10 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center">
+                    <CheckCircle size={20} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Requests & Offers (Pre-Acceptance) */}
         <div className="space-y-10">
