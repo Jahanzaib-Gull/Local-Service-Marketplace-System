@@ -81,9 +81,9 @@ The **Minimum Viable Product** focuses on the core "Post-Bid-Chat" loop:
 ---
 
 ## 10. System Architecture (3-Tier)
-*   **Client Tier**: React.js / Vite (Handles UI & WebSocket events).
-*   **Business Logic Tier**: Node.js / Express (Handles API, Auth, and Socket broadcasting).
-*   **Data Tier**: MongoDB Atlas (Persistent storage for JSON-like documents).
+*   **Client Tier**: Modern SPA framework (e.g., React) for interactive UI and real-time event handling.
+*   **Business Logic Tier**: Scalable API server (e.g., Node.js/Express) for authentication, workflow management, and WebSocket broadcasting.
+*   **Data Tier**: Reliable cloud database (e.g., MongoDB Atlas) for persistent storage.
 
 ---
 

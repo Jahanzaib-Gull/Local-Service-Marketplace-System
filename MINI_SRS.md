@@ -35,7 +35,7 @@ The LSMS is a web-based platform that facilitates the "Post-Bid-Chat" lifecycle.
 
 ## 7. Constraints
 *   **Timeline:** The project must be completed and deployed within the designated 9-week evaluation period.
-*   **Technology:** The system must be built using the MERN stack (MongoDB, Express, React, Node) as per curriculum requirements.
+*   **Technology:** The system leverages a modern full-stack architecture (Node.js, React, and MongoDB) for scalability and real-time performance.
 *   **Budget:** The project uses free-tier hosting (Render/Vercel) and open-source libraries.
 
 ## 8. Brief Success Criteria
