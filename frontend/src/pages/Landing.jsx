@@ -42,8 +42,8 @@ const Landing = () => {
           </h1>
 
           {/* Floating Hammer Pro */}
-          <div className="absolute top-20 right-[5%] hidden xl:block animate-bounce animation-delay-1000">
-            <img src={HammerImg} alt="Pro with hammer" className="w-48 h-48 object-contain drop-shadow-2xl" />
+          <div className="absolute top-0 -right-20 hidden xl:block animate-bounce animation-delay-1000 opacity-40 hover:opacity-100 transition-opacity duration-700">
+            <img src={HammerImg} alt="Pro with hammer" className="w-[500px] h-[500px] object-contain drop-shadow-2xl" />
           </div>
           
           <p className="text-xl md:text-2xl text-slate-500 max-w-2xl leading-relaxed animate-fade-in-up animation-delay-200">
@@ -97,15 +97,15 @@ const Landing = () => {
         <div className="max-w-5xl mx-auto mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-slate-100 pt-16 relative">
           
           {/* Running Pro Aside */}
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 hidden md:block animate-pulse">
-            <img src={RunningImg} alt="Running pro" className="w-32 h-32 object-contain" />
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 hidden md:block animate-pulse opacity-30 hover:opacity-100 transition-opacity">
+            <img src={RunningImg} alt="Running pro" className="w-[350px] h-[350px] object-contain" />
           </div>
 
           <div className="flex items-start gap-5 group">
             <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shrink-0 relative">
               <ShieldCheck size={32} />
               {/* Inspection Pro Aside */}
-              <img src={InspectionImg} alt="Inspection" className="absolute -top-10 -right-10 w-20 h-20 object-contain opacity-0 group-hover:opacity-100 transition-opacity z-20" />
+              <img src={InspectionImg} alt="Inspection" className="absolute -top-20 -right-20 w-[200px] h-[200px] object-contain opacity-0 group-hover:opacity-100 transition-all duration-500 z-20 transform group-hover:scale-110" />
             </div>
             <div>
               <h4 className="text-xl font-black text-slate-900 mb-2">Verified Pros</h4>
@@ -126,8 +126,8 @@ const Landing = () => {
               <p className="text-slate-500 leading-relaxed">Average service rating of 4.9/5 from 100k+ reviews.</p>
             </div>
             {/* Cleaning Pro Aside for Top Rated */}
-            <div className="absolute -top-16 -right-8 hidden xl:block opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              <img src={CleaningImg} alt="Top rated services" className="w-28 h-28 object-contain" />
+            <div className="absolute -top-32 -right-16 hidden xl:block opacity-0 group-hover:opacity-100 transition-all duration-700 transform group-hover:translate-x-4">
+              <img src={CleaningImg} alt="Top rated services" className="w-[300px] h-[300px] object-contain" />
             </div>
           </div>
         </div>
