@@ -4,6 +4,12 @@ import { Home as HomeIcon, Wrench, ShieldCheck, Zap, Star, ArrowRight } from 'lu
 import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
 
+// Import catchment images
+import CleaningImg from '../assets/images/cleaning.png';
+import InspectionImg from '../assets/images/inspection.png';
+import RunningImg from '../assets/images/running.png';
+import HammerImg from '../assets/images/with hammer.png';
+
 const Landing = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -35,6 +41,11 @@ const Landing = () => {
             Find the perfect <span className="text-indigo-600">Pro</span> for any task <span className="relative">instantly<span className="absolute bottom-2 left-0 w-full h-4 bg-indigo-200/60 -z-10 rounded-full"></span></span>.
           </h1>
 
+          {/* Floating Hammer Pro */}
+          <div className="absolute top-20 right-[10%] hidden xl:block animate-bounce animation-delay-1000">
+            <img src={HammerImg} alt="Pro with hammer" className="w-32 h-32 object-contain drop-shadow-2xl" />
+          </div>
+          
           <p className="text-xl md:text-2xl text-slate-500 max-w-2xl leading-relaxed animate-fade-in-up animation-delay-200">
             The world's most sophisticated marketplace for local services. Plumbers, cleaners, and experts at your fingertips.
           </p>
@@ -57,6 +68,11 @@ const Landing = () => {
             <h2 className="relative z-10 text-4xl font-black text-slate-900 mb-4">I want to Hire</h2>
             <p className="relative z-10 text-slate-500 text-lg mb-10 leading-relaxed max-w-xs">Access top-tier professionals for your home, office, and events with absolute security.</p>
             
+            {/* Aside Cleaning Pro */}
+            <div className="absolute bottom-4 right-4 w-24 h-24 opacity-20 group-hover:opacity-100 transition-opacity duration-500 transform group-hover:scale-125">
+              <img src={CleaningImg} alt="Cleaning pro" className="w-full h-full object-contain" />
+            </div>
+
             <div className="relative z-10 flex items-center gap-4 text-indigo-600 font-black text-lg group/btn">
               Explore Services <div className="p-2.5 bg-indigo-50 rounded-2xl group-hover/btn:translate-x-2 transition-all"><ArrowRight size={20} /></div>
             </div>
@@ -83,9 +99,19 @@ const Landing = () => {
         </div>
 
         {/* Trust Badges */}
-        <div className="max-w-5xl mx-auto mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-slate-100 pt-16">
-          <div className="flex items-start gap-5">
-            <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shrink-0"><ShieldCheck size={32} /></div>
+        <div className="max-w-5xl mx-auto mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-slate-100 pt-16 relative">
+          
+          {/* Running Pro Aside */}
+          <div className="absolute -top-16 left-1/2 -translate-x-1/2 hidden md:block animate-pulse">
+            <img src={RunningImg} alt="Running pro" className="w-20 h-20 object-contain" />
+          </div>
+
+          <div className="flex items-start gap-5 group">
+            <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shrink-0 relative">
+              <ShieldCheck size={32} />
+              {/* Inspection Pro Aside */}
+              <img src={InspectionImg} alt="Inspection" className="absolute -top-6 -right-6 w-12 h-12 object-contain opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
             <div>
               <h4 className="text-xl font-black text-slate-900 mb-2">Verified Pros</h4>
               <p className="text-slate-500 leading-relaxed">Every professional undergoes a 7-step background verification.</p>
