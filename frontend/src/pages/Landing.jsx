@@ -29,7 +29,7 @@ const Landing = () => {
           <img 
             src={HammerImg} 
             alt="" 
-            className="absolute top-[200px] -left-10 lg:-left-40 w-40 lg:w-80 h-40 lg:h-80 object-contain animate-float drop-shadow-xl opacity-20 lg:opacity-90 transition-all duration-700" 
+            className="absolute top-[150px] -left-20 lg:-left-60 w-64 lg:w-[500px] h-64 lg:h-[500px] object-contain animate-float drop-shadow-2xl opacity-20 lg:opacity-90 transition-all duration-700" 
           />
           {/* Running Pro - Mid Right */}
           <img 
