@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Wrench, Menu, X, LayoutDashboard, PlusCircle, Briefcase, LogOut, LogIn, UserPlus } from 'lucide-react';
+import { Hammer, Menu, X, LayoutDashboard, PlusCircle, Briefcase, LogOut, LogIn, UserPlus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationDropdown from './NotificationDropdown';
 
@@ -51,10 +51,10 @@ const Navbar = () => {
         {/* Brand */}
         <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-3 group">
           <div className="p-2.5 bg-gradient-to-tr from-indigo-600 to-violet-500 text-white rounded-2xl shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform duration-500">
-            <Wrench size={22} strokeWidth={2.5} />
+            <Hammer size={22} strokeWidth={2.5} />
           </div>
-          <span className="text-xl font-black tracking-tight text-slate-900">
-            LSM<span className="text-indigo-600">S</span>
+          <span className="text-xl font-black tracking-tight text-slate-900 uppercase">
+            Perfect <span className="text-indigo-600">Pro</span>
           </span>
         </Link>
 

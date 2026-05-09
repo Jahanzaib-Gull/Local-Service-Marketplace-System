@@ -24,11 +24,11 @@ const Landing = () => {
     <div className="relative min-h-screen bg-[#fafbff] overflow-hidden">
       {/* Floating Asides in Gutters - Always Visible */}
       <div className="hidden xl:block pointer-events-none">
-        <div className="max-w-[1600px] mx-auto relative h-0">
-          <img src={HammerImg} alt="" className="absolute top-[300px] -left-32 w-48 h-48 object-contain animate-float drop-shadow-xl opacity-90" />
-          <img src={RunningImg} alt="" className="absolute top-[600px] -right-32 w-48 h-48 object-contain animate-float animation-delay-1000 drop-shadow-xl opacity-90" />
-          <img src={InspectionImg} alt="" className="absolute top-[1000px] -left-32 w-48 h-48 object-contain animate-float animation-delay-2000 drop-shadow-xl opacity-90" />
-          <img src={CleaningImg} alt="" className="absolute top-[1400px] -right-32 w-48 h-48 object-contain animate-float animation-delay-4000 drop-shadow-xl opacity-90" />
+        <div className="max-w-[1700px] mx-auto relative h-0">
+          <img src={HammerImg} alt="" className="absolute top-[300px] -left-48 w-80 h-80 object-contain animate-float drop-shadow-xl opacity-90" />
+          <img src={RunningImg} alt="" className="absolute top-[600px] -right-48 w-80 h-80 object-contain animate-float animation-delay-1000 drop-shadow-xl opacity-90" />
+          <img src={InspectionImg} alt="" className="absolute top-[1000px] -left-48 w-80 h-80 object-contain animate-float animation-delay-2000 drop-shadow-xl opacity-90" />
+          <img src={CleaningImg} alt="" className="absolute top-[1400px] -right-48 w-80 h-80 object-contain animate-float animation-delay-4000 drop-shadow-xl opacity-90" />
         </div>
       </div>
 
@@ -48,7 +48,7 @@ const Landing = () => {
           </div>
 
           <h1 className="text-6xl md:text-8xl font-black tracking-tight text-slate-900 leading-[1.05] max-w-5xl animate-fade-in-up">
-            Find the perfect <span className="text-indigo-600">Pro</span> for any task <span className="relative">instantly<span className="absolute bottom-2 left-0 w-full h-4 bg-indigo-200/60 -z-10 rounded-full"></span></span>.
+            Find the <span className="text-indigo-600">Perfect Pro</span> for any task <span className="relative">instantly<span className="absolute bottom-2 left-0 w-full h-4 bg-indigo-200/60 -z-10 rounded-full"></span></span>.
           </h1>
 
           <p className="text-xl md:text-2xl text-slate-500 max-w-2xl leading-relaxed animate-fade-in-up animation-delay-200">
