@@ -25,19 +25,32 @@ const Landing = () => {
 
       <div className="relative z-10 pt-32 pb-20 px-6">
         {/* Hero Content */}
-        <div className="max-w-7xl mx-auto flex flex-col items-center text-center space-y-10 mb-24">
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full border border-slate-200 shadow-sm animate-fade-in-up">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-xs font-extrabold text-slate-600 tracking-wider uppercase">Trusted by 5,000+ Providers</span>
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 mb-24">
+          {/* Left Text Column */}
+          <div className="flex-1 space-y-8 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full border border-slate-200 shadow-sm animate-fade-in-up">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="text-xs font-extrabold text-slate-600 tracking-wider uppercase">Trusted by 5,000+ Providers</span>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 leading-[1.1] animate-fade-in-up">
+              Find the perfect <span className="text-indigo-600">Pro</span> for any task <span className="relative">instantly<span className="absolute bottom-2 left-0 w-full h-4 bg-indigo-200/60 -z-10 rounded-full"></span></span>.
+            </h1>
+
+            <p className="text-xl text-slate-500 max-w-xl mx-auto lg:mx-0 leading-relaxed animate-fade-in-up animation-delay-200">
+              The world's most sophisticated marketplace for local services. Plumbers, cleaners, and experts at your fingertips.
+            </p>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-black tracking-tight text-slate-900 leading-[1.05] max-w-5xl animate-fade-in-up">
-            Find the perfect <span className="text-indigo-600">Pro</span> for any task <span className="relative">instantly<span className="absolute bottom-2 left-0 w-full h-4 bg-indigo-200/60 -z-10 rounded-full"></span></span>.
-          </h1>
-
-          <p className="text-xl md:text-2xl text-slate-500 max-w-2xl leading-relaxed animate-fade-in-up animation-delay-200">
-            The world's most sophisticated marketplace for local services. Plumbers, cleaners, and experts at your fingertips.
-          </p>
+          {/* Right Image Column */}
+          <div className="flex-1 relative animate-fade-in-up animation-delay-400 w-full flex justify-center">
+            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-200 to-emerald-100 rounded-full blur-[80px] opacity-40 -z-10"></div>
+            <img 
+              src="/images/hero-illustration.png" 
+              alt="Service Professionals Illustration" 
+              className="w-full max-w-[500px] object-contain drop-shadow-2xl hover:-translate-y-4 transition-transform duration-700 ease-out mix-blend-darken"
+            />
+          </div>
         </div>
 
         {/* Choice Grid */}
