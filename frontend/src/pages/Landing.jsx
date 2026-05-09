@@ -22,12 +22,14 @@ const Landing = () => {
 
   return (
     <div className="relative min-h-screen bg-[#fafbff] overflow-hidden">
-      {/* Floating Asides in Gutters */}
-      <div className="hidden 2xl:block">
-        <img src={HammerImg} alt="" className="fixed top-1/4 -left-12 w-48 h-48 object-contain animate-float opacity-20 hover:opacity-100 transition-opacity" />
-        <img src={RunningImg} alt="" className="fixed top-1/2 -right-12 w-48 h-48 object-contain animate-float animation-delay-1000 opacity-20 hover:opacity-100 transition-opacity" />
-        <img src={InspectionImg} alt="" className="fixed bottom-1/4 -left-12 w-40 h-40 object-contain animate-float animation-delay-2000 opacity-20 hover:opacity-100 transition-opacity" />
-        <img src={CleaningImg} alt="" className="fixed bottom-10 right-10 w-40 h-40 object-contain animate-float animation-delay-4000 opacity-20 hover:opacity-100 transition-opacity" />
+      {/* Floating Asides in Gutters - Always Visible */}
+      <div className="hidden xl:block pointer-events-none">
+        <div className="max-w-[1600px] mx-auto relative h-0">
+          <img src={HammerImg} alt="" className="absolute top-[300px] -left-32 w-48 h-48 object-contain animate-float drop-shadow-xl opacity-90" />
+          <img src={RunningImg} alt="" className="absolute top-[600px] -right-32 w-48 h-48 object-contain animate-float animation-delay-1000 drop-shadow-xl opacity-90" />
+          <img src={InspectionImg} alt="" className="absolute top-[1000px] -left-32 w-48 h-48 object-contain animate-float animation-delay-2000 drop-shadow-xl opacity-90" />
+          <img src={CleaningImg} alt="" className="absolute top-[1400px] -right-32 w-48 h-48 object-contain animate-float animation-delay-4000 drop-shadow-xl opacity-90" />
+        </div>
       </div>
 
       {/* Immersive Background */}
