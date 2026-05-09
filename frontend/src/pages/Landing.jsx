@@ -41,11 +41,6 @@ const Landing = () => {
             Find the perfect <span className="text-indigo-600">Pro</span> for any task <span className="relative">instantly<span className="absolute bottom-2 left-0 w-full h-4 bg-indigo-200/60 -z-10 rounded-full"></span></span>.
           </h1>
 
-          {/* Floating Hammer Pro */}
-          <div className="absolute top-0 -right-20 hidden xl:block animate-bounce animation-delay-1000 opacity-40 hover:opacity-100 transition-opacity duration-700">
-            <img src={HammerImg} alt="Pro with hammer" className="w-[500px] h-[500px] object-contain drop-shadow-2xl" />
-          </div>
-          
           <p className="text-xl md:text-2xl text-slate-500 max-w-2xl leading-relaxed animate-fade-in-up animation-delay-200">
             The world's most sophisticated marketplace for local services. Plumbers, cleaners, and experts at your fingertips.
           </p>
@@ -94,41 +89,39 @@ const Landing = () => {
         </div>
 
         {/* Trust Badges */}
-        <div className="max-w-5xl mx-auto mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-slate-100 pt-16 relative">
+        <div className="max-w-6xl mx-auto mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-slate-100 pt-20">
           
-          {/* Running Pro Aside */}
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 hidden md:block animate-pulse opacity-30 hover:opacity-100 transition-opacity">
-            <img src={RunningImg} alt="Running pro" className="w-[350px] h-[350px] object-contain" />
+          <div className="flex flex-col items-center text-center group">
+            <div className="mb-6 relative">
+              <div className="p-5 bg-indigo-50 text-indigo-600 rounded-[2rem] relative z-10">
+                <ShieldCheck size={40} />
+              </div>
+              <img src={InspectionImg} alt="Verified" className="absolute -top-12 -right-12 w-24 h-24 object-contain animate-float" />
+            </div>
+            <h4 className="text-2xl font-black text-slate-900 mb-3">Verified Pros</h4>
+            <p className="text-slate-500 font-medium leading-relaxed px-4">Every professional undergoes a 7-step background verification.</p>
           </div>
 
-          <div className="flex items-start gap-5 group">
-            <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shrink-0 relative">
-              <ShieldCheck size={32} />
-              {/* Inspection Pro Aside */}
-              <img src={InspectionImg} alt="Inspection" className="absolute -top-20 -right-20 w-[200px] h-[200px] object-contain opacity-0 group-hover:opacity-100 transition-all duration-500 z-20 transform group-hover:scale-110" />
+          <div className="flex flex-col items-center text-center group">
+            <div className="mb-6 relative">
+              <div className="p-5 bg-emerald-50 text-emerald-600 rounded-[2rem] relative z-10">
+                <Zap size={40} />
+              </div>
+              <img src={RunningImg} alt="Instant" className="absolute -top-12 -right-12 w-24 h-24 object-contain animate-float animation-delay-1000" />
             </div>
-            <div>
-              <h4 className="text-xl font-black text-slate-900 mb-2">Verified Pros</h4>
-              <p className="text-slate-500 leading-relaxed">Every professional undergoes a 7-step background verification.</p>
-            </div>
+            <h4 className="text-2xl font-black text-slate-900 mb-3">Instant Match</h4>
+            <p className="text-slate-500 font-medium leading-relaxed px-4">Find an expert in under 60 seconds with our AI matching.</p>
           </div>
-          <div className="flex items-start gap-5">
-            <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl shrink-0"><Zap size={32} /></div>
-            <div>
-              <h4 className="text-xl font-black text-slate-900 mb-2">Instant Match</h4>
-              <p className="text-slate-500 leading-relaxed">Find an expert in under 60 seconds with our AI matching.</p>
+
+          <div className="flex flex-col items-center text-center group">
+            <div className="mb-6 relative">
+              <div className="p-5 bg-amber-50 text-amber-600 rounded-[2rem] relative z-10">
+                <Star size={40} />
+              </div>
+              <img src={CleaningImg} alt="Rated" className="absolute -top-12 -right-12 w-24 h-24 object-contain animate-float animation-delay-2000" />
             </div>
-          </div>
-          <div className="flex items-start gap-5 group relative">
-            <div className="p-4 bg-amber-50 text-amber-600 rounded-2xl shrink-0"><Star size={32} /></div>
-            <div>
-              <h4 className="text-xl font-black text-slate-900 mb-2">Top Rated</h4>
-              <p className="text-slate-500 leading-relaxed">Average service rating of 4.9/5 from 100k+ reviews.</p>
-            </div>
-            {/* Cleaning Pro Aside for Top Rated */}
-            <div className="absolute -top-32 -right-16 hidden xl:block opacity-0 group-hover:opacity-100 transition-all duration-700 transform group-hover:translate-x-4">
-              <img src={CleaningImg} alt="Top rated services" className="w-[300px] h-[300px] object-contain" />
-            </div>
+            <h4 className="text-2xl font-black text-slate-900 mb-3">Top Rated</h4>
+            <p className="text-slate-500 font-medium leading-relaxed px-4">Average service rating of 4.9/5 from 100k+ reviews.</p>
           </div>
         </div>
       </div>

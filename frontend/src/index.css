@@ -26,6 +26,13 @@
     25% { transform: rotate(1deg); }
     75% { transform: rotate(-1deg); }
   }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  --animate-float: float 3s ease-in-out infinite;
 }
 
 @layer base {
@@ -47,6 +54,7 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-indigo-400;
   }
 
+  .animation-delay-1000 { animation-delay: 1s; }
   .animation-delay-2000 { animation-delay: 2s; }
   .animation-delay-4000 { animation-delay: 4s; }
 }
