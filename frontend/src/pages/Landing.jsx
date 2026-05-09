@@ -22,6 +22,14 @@ const Landing = () => {
 
   return (
     <div className="relative min-h-screen bg-[#fafbff] overflow-hidden">
+      {/* Floating Asides in Gutters */}
+      <div className="hidden 2xl:block">
+        <img src={HammerImg} alt="" className="fixed top-1/4 -left-12 w-48 h-48 object-contain animate-float opacity-20 hover:opacity-100 transition-opacity" />
+        <img src={RunningImg} alt="" className="fixed top-1/2 -right-12 w-48 h-48 object-contain animate-float animation-delay-1000 opacity-20 hover:opacity-100 transition-opacity" />
+        <img src={InspectionImg} alt="" className="fixed bottom-1/4 -left-12 w-40 h-40 object-contain animate-float animation-delay-2000 opacity-20 hover:opacity-100 transition-opacity" />
+        <img src={CleaningImg} alt="" className="fixed bottom-10 right-10 w-40 h-40 object-contain animate-float animation-delay-4000 opacity-20 hover:opacity-100 transition-opacity" />
+      </div>
+
       {/* Immersive Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-5%] w-[800px] h-[800px] bg-indigo-200/40 rounded-full mix-blend-multiply filter blur-[120px] animate-blob"></div>
@@ -93,10 +101,9 @@ const Landing = () => {
           
           <div className="flex flex-col items-center text-center group">
             <div className="mb-6 relative">
-              <div className="p-5 bg-indigo-50 text-indigo-600 rounded-[2rem] relative z-10">
+              <div className="p-5 bg-indigo-50 text-indigo-600 rounded-[2rem]">
                 <ShieldCheck size={40} />
               </div>
-              <img src={InspectionImg} alt="Verified" className="absolute -top-12 -right-12 w-24 h-24 object-contain animate-float" />
             </div>
             <h4 className="text-2xl font-black text-slate-900 mb-3">Verified Pros</h4>
             <p className="text-slate-500 font-medium leading-relaxed px-4">Every professional undergoes a 7-step background verification.</p>
@@ -104,10 +111,9 @@ const Landing = () => {
 
           <div className="flex flex-col items-center text-center group">
             <div className="mb-6 relative">
-              <div className="p-5 bg-emerald-50 text-emerald-600 rounded-[2rem] relative z-10">
+              <div className="p-5 bg-emerald-50 text-emerald-600 rounded-[2rem]">
                 <Zap size={40} />
               </div>
-              <img src={RunningImg} alt="Instant" className="absolute -top-12 -right-12 w-24 h-24 object-contain animate-float animation-delay-1000" />
             </div>
             <h4 className="text-2xl font-black text-slate-900 mb-3">Instant Match</h4>
             <p className="text-slate-500 font-medium leading-relaxed px-4">Find an expert in under 60 seconds with our AI matching.</p>
@@ -115,10 +121,9 @@ const Landing = () => {
 
           <div className="flex flex-col items-center text-center group">
             <div className="mb-6 relative">
-              <div className="p-5 bg-amber-50 text-amber-600 rounded-[2rem] relative z-10">
+              <div className="p-5 bg-amber-50 text-amber-600 rounded-[2rem]">
                 <Star size={40} />
               </div>
-              <img src={CleaningImg} alt="Rated" className="absolute -top-12 -right-12 w-24 h-24 object-contain animate-float animation-delay-2000" />
             </div>
             <h4 className="text-2xl font-black text-slate-900 mb-3">Top Rated</h4>
             <p className="text-slate-500 font-medium leading-relaxed px-4">Average service rating of 4.9/5 from 100k+ reviews.</p>
