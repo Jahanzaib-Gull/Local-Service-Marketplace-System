@@ -42,8 +42,8 @@ const Landing = () => {
           </h1>
 
           {/* Floating Hammer Pro */}
-          <div className="absolute top-20 right-[10%] hidden xl:block animate-bounce animation-delay-1000">
-            <img src={HammerImg} alt="Pro with hammer" className="w-32 h-32 object-contain drop-shadow-2xl" />
+          <div className="absolute top-20 right-[5%] hidden xl:block animate-bounce animation-delay-1000">
+            <img src={HammerImg} alt="Pro with hammer" className="w-48 h-48 object-contain drop-shadow-2xl" />
           </div>
           
           <p className="text-xl md:text-2xl text-slate-500 max-w-2xl leading-relaxed animate-fade-in-up animation-delay-200">
@@ -68,11 +68,6 @@ const Landing = () => {
             <h2 className="relative z-10 text-4xl font-black text-slate-900 mb-4">I want to Hire</h2>
             <p className="relative z-10 text-slate-500 text-lg mb-10 leading-relaxed max-w-xs">Access top-tier professionals for your home, office, and events with absolute security.</p>
             
-            {/* Aside Cleaning Pro */}
-            <div className="absolute bottom-4 right-4 w-24 h-24 opacity-20 group-hover:opacity-100 transition-opacity duration-500 transform group-hover:scale-125">
-              <img src={CleaningImg} alt="Cleaning pro" className="w-full h-full object-contain" />
-            </div>
-
             <div className="relative z-10 flex items-center gap-4 text-indigo-600 font-black text-lg group/btn">
               Explore Services <div className="p-2.5 bg-indigo-50 rounded-2xl group-hover/btn:translate-x-2 transition-all"><ArrowRight size={20} /></div>
             </div>
@@ -102,15 +97,15 @@ const Landing = () => {
         <div className="max-w-5xl mx-auto mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-slate-100 pt-16 relative">
           
           {/* Running Pro Aside */}
-          <div className="absolute -top-16 left-1/2 -translate-x-1/2 hidden md:block animate-pulse">
-            <img src={RunningImg} alt="Running pro" className="w-20 h-20 object-contain" />
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 hidden md:block animate-pulse">
+            <img src={RunningImg} alt="Running pro" className="w-32 h-32 object-contain" />
           </div>
 
           <div className="flex items-start gap-5 group">
             <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shrink-0 relative">
               <ShieldCheck size={32} />
               {/* Inspection Pro Aside */}
-              <img src={InspectionImg} alt="Inspection" className="absolute -top-6 -right-6 w-12 h-12 object-contain opacity-0 group-hover:opacity-100 transition-opacity" />
+              <img src={InspectionImg} alt="Inspection" className="absolute -top-10 -right-10 w-20 h-20 object-contain opacity-0 group-hover:opacity-100 transition-opacity z-20" />
             </div>
             <div>
               <h4 className="text-xl font-black text-slate-900 mb-2">Verified Pros</h4>
@@ -124,11 +119,15 @@ const Landing = () => {
               <p className="text-slate-500 leading-relaxed">Find an expert in under 60 seconds with our AI matching.</p>
             </div>
           </div>
-          <div className="flex items-start gap-5">
+          <div className="flex items-start gap-5 group relative">
             <div className="p-4 bg-amber-50 text-amber-600 rounded-2xl shrink-0"><Star size={32} /></div>
             <div>
               <h4 className="text-xl font-black text-slate-900 mb-2">Top Rated</h4>
               <p className="text-slate-500 leading-relaxed">Average service rating of 4.9/5 from 100k+ reviews.</p>
+            </div>
+            {/* Cleaning Pro Aside for Top Rated */}
+            <div className="absolute -top-16 -right-8 hidden xl:block opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <img src={CleaningImg} alt="Top rated services" className="w-28 h-28 object-contain" />
             </div>
           </div>
         </div>
