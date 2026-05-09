@@ -21,14 +21,34 @@ const Landing = () => {
   }, [user, navigate]);
 
   return (
-    <div className="relative min-h-screen bg-[#fafbff] overflow-hidden">
-      {/* Floating Asides in Gutters - Always Visible */}
-      <div className="hidden xl:block pointer-events-none">
-        <div className="max-w-[1700px] mx-auto relative h-0">
-          <img src={HammerImg} alt="" className="absolute top-[300px] -left-48 w-80 h-80 object-contain animate-float drop-shadow-xl opacity-90" />
-          <img src={RunningImg} alt="" className="absolute top-[600px] -right-48 w-80 h-80 object-contain animate-float animation-delay-1000 drop-shadow-xl opacity-90" />
-          <img src={InspectionImg} alt="" className="absolute top-[1000px] -left-48 w-80 h-80 object-contain animate-float animation-delay-2000 drop-shadow-xl opacity-90" />
-          <img src={CleaningImg} alt="" className="absolute top-[1400px] -right-48 w-80 h-80 object-contain animate-float animation-delay-4000 drop-shadow-xl opacity-90" />
+    <div className="relative min-h-screen bg-[#fafbff] overflow-x-hidden">
+      {/* Floating Asides - Responsive Decoration */}
+      <div className="pointer-events-none select-none">
+        <div className="max-w-[1400px] mx-auto relative h-0">
+          {/* Hammer Pro - Top Left */}
+          <img 
+            src={HammerImg} 
+            alt="" 
+            className="absolute top-[200px] -left-10 lg:-left-40 w-40 lg:w-80 h-40 lg:h-80 object-contain animate-float drop-shadow-xl opacity-20 lg:opacity-90 transition-all duration-700" 
+          />
+          {/* Running Pro - Mid Right */}
+          <img 
+            src={RunningImg} 
+            alt="" 
+            className="absolute top-[600px] -right-10 lg:-right-40 w-40 lg:w-80 h-40 lg:h-80 object-contain animate-float animation-delay-1000 drop-shadow-xl opacity-20 lg:opacity-90 transition-all duration-700" 
+          />
+          {/* Inspection Pro - Lower Left */}
+          <img 
+            src={InspectionImg} 
+            alt="" 
+            className="absolute top-[1000px] -left-10 lg:-left-40 w-40 lg:w-80 h-40 lg:h-80 object-contain animate-float animation-delay-2000 drop-shadow-xl opacity-20 lg:opacity-90 transition-all duration-700" 
+          />
+          {/* Cleaning Pro - Bottom Right */}
+          <img 
+            src={CleaningImg} 
+            alt="" 
+            className="absolute top-[1400px] -right-10 lg:-right-40 w-40 lg:w-80 h-40 lg:h-80 object-contain animate-float animation-delay-4000 drop-shadow-xl opacity-20 lg:opacity-90 transition-all duration-700" 
+          />
         </div>
       </div>
 
